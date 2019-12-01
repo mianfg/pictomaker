@@ -5,7 +5,8 @@ from manager import PictoManager, PictoType
 
 import random
 
-class PictoInterface:
+
+class PictoInterface():
     color_map = {
         # adjective
         'ADJ':      ((255,255,255), (0,0,0)),
@@ -29,7 +30,7 @@ class PictoInterface:
         'DET':      ((219,0,0), (255,255,255)),
 
         # interjection
-        'INTJ':     ((255,255,255), (0,0,0)),
+        'INTJ':     ((0,0,255), (0,0,0)),
 
         # noun
         'NOUN':     ((0,0,0), (255,255,255)),
@@ -65,39 +66,42 @@ class PictoInterface:
         'SPACE':    ((255,255,255), (0,0,0))
     }
 
-    @staticmethod
-    def tokens_to_cards(tokens):
+    def __init__(self, language, image_handler):
+        self.__language = language
+        self.__image_handler = image_handler
+
+    def get_config(self):
+        pass    # devolver valores de colores
+
+    def new_cards(self):
+        pass
+
+    def tokens_to_cards(self, tokens):
         cards = []
         for token in tokens:
-            print("searching " + token[1])
-            print(token)
-            picto_route = PictoManager.get_picto(token[1], PictoType.Color)
-            print(picto_route)
+            picto_route = PictoManager.get_picto(token.get_lemma())#, PictoType.Color)
             no_items = len(picto_route)
-            print(no_items)
             if no_items > 0:
-                select= random.randint(0, no_items-1)
-                print("selected: "+str(select))
+                select = random.randint(0, no_items-1)
                 picto_route = picto_route[select]
             else:
                 picto_route = ""
-            print("picto_route: " + picto_route)
-            font_route = "../resources/font_sansserif.ttf"
-            card = PictoCard(token[0], token[1], picto_route, \
-                PictoInterface.color_map[token[2]][0], \
-                PictoInterface.color_map[token[2]][1], \
-                # native card dimensions
-                (600, 750), 50, font_route, 60)
+            
+            picto_route = PictoManager.get_route(picto_route, PictoType.Color)
+            card = PictoCard(token.get_print(), \
+                picto_route, \
+                PictoInterface.color_map[token.get_pos()][0], \
+                PictoInterface.color_map[token.get_pos()][1])
+            
             cards.append(card)
         
         return cards
 
-    @staticmethod
-    def to_card(sentence):
-        tokenized = PictoLanguage.tokenize(sentence)
-        cards = PictoInterface.tokens_to_cards(tokenized)
-        PictoImageHandler.generate_cards(cards)
-
-
-
-PictoInterface.to_card("La teta de Javi es bonita.")
+    def to_card(self, sentence):
+        tokenized = self.__language.tokenize(sentence)
+        cards = self.tokens_to_cards(tokenized)
+        self.__image_handler.generate_cards(cards)
+    
+    def get_cards(self, sentence):
+        tokenized = self.__language.tokenize(sentence)
+        return self.tokens_to_cards(tokenized)

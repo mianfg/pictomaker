@@ -81,16 +81,16 @@ class PictoWord:
 
 
 class PictoLanguage:
-    NLP = spacy.load("es_core_news_md") # WIP load before
-    
-    @staticmethod
-    def tokenize(sentence):
+    def __init__(self):
+        self.__NLP = spacy.load("es_core_news_md") # WIP load before
+
+    def tokenize(self, sentence):
         """
         Tokenizes sentence into an array of PictoWords:
         """
 
         # iterate over words
-        nlp = PictoLanguage.NLP(sentence)
+        nlp = self.__NLP(sentence)
 
         print_arr = sentence.split()
         lemma_arr = []
