@@ -34,7 +34,7 @@ class PictoManager:
     @staticmethod
     def get_picto(word):
         paths = []
-        path = "./resources/color"
+        path = "./static/color"
 
         #if type == PictoType.Color:
         #    path = "../resources/color"
@@ -47,6 +47,8 @@ class PictoManager:
             for filename in files:
                 if PictoManager.__is_word(word, filename):
                     paths.append(filename.split('.')[0])
+        if len(paths) == 0:
+            paths.append("/static/color/1")
         
         return paths
     
@@ -55,9 +57,9 @@ class PictoManager:
         path = ""
 
         if type == PictoType.Color:
-            path = "./resources/color"
+            path = "./static/color"
         elif type == PictoType.BnW:
-            path = "./resources/bnw"
+            path = "./static/bnw"
         
         if path != "":
             return abspath(join(path, picto + ".png"))

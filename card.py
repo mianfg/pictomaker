@@ -37,11 +37,11 @@ class PictoCard:
 
     def to_json(self):
         # create dict
-        dict = {
+        result = {
             "text" :            self.__text,
             "image_path" :      self.__image_path,
             "bg_color" :        self.__bg_color,
             "text_color" :      self.__text_color
         }
 
-        return json.dumps(dict)
+        return result #json.dumps(dict)
