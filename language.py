@@ -44,12 +44,12 @@ class PictoWord:
         self.__lemma = lemma
         self.__pos = pos
         self.__picto = picto
-        if picto == "":
-            pictos = PictoManager.get_picto(print)
-            if len(pictos) > 0:
-                picto = pictos[0]
-            else:
-                picto = ""
+        # if picto == "":
+        #     pictos = PictoManager.get_picto(print)
+        #     if len(pictos) > 0:
+        #         picto = pictos[0]
+        #     else:
+        #         picto = ""
         self.__type = type
     
     def get_print(self):

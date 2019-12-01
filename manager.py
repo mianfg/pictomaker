@@ -32,23 +32,26 @@ class PictoManager:
         return word.lower() == filename.split('.')[0].split('_')[0].lower()
 
     @staticmethod
-    def get_picto(word):
+    def get_picto(word, color=PictoType.Color):
         paths = []
         path = "./static/color"
+        default_image = "?.png"
 
-        #if type == PictoType.Color:
-        #    path = "../resources/color"
-        #elif type == PictoType.BnW:
-        #    path = "../resources/bnw"
+        if type == PictoType.Color:
+            path = "./static/color"
+        elif type == PictoType.BnW:
+            path = "./static/bnw"
 
         if path != "":
             files = PictoManager.__get_files(path)
             # WIP sinónimos
             for filename in files:
+                print(filename)
                 if PictoManager.__is_word(word, filename):
-                    paths.append(filename.split('.')[0])
+                    paths.append(path[1:]+'/'+filename)
+        
         if len(paths) == 0:
-            paths.append("/static/color/1")
+            paths.append(path[1:]+'/'+default_image)
         
         return paths
     
@@ -62,4 +65,4 @@ class PictoManager:
             path = "./static/bnw"
         
         if path != "":
-            return abspath(join(path, picto + ".png"))
+            return picto

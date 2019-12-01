@@ -5,11 +5,11 @@ import json
 
 
 class PictoCard:
-    def __init__(self, text, image_path, bg_color, text_color):
+    def __init__(self, text, image_path, bg_color, gramm):
         self.__text = text
         self.__image_path = image_path
-        self.__bg_color = bg_color      # (R,G,B)
-        self.__text_color = text_color  # (R,G,B)
+        self.__bg_color = bg_color      # html
+        self.__gramm = gramm
     
     def get_text(self):
         return self.__text
@@ -29,11 +29,11 @@ class PictoCard:
     def set_bg_color(self, bg_color):
         self.__bg_color = bg_color
 
-    def get_text_color(self):
-        return self.__text_color
+    def get_gramm(self):
+        return self.__gramm
     
-    def set_text_color(self, text_color):
-        self.__text_color = text_color
+    def set_gramm(self, gramm):
+        self.__gramm = gramm
 
     def to_json(self):
         # create dict
@@ -41,7 +41,7 @@ class PictoCard:
             "text" :            self.__text,
             "image_path" :      self.__image_path,
             "bg_color" :        self.__bg_color,
-            "text_color" :      self.__text_color
+            "gramm" :      self.__gramm
         }
 
         return result #json.dumps(dict)

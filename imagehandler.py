@@ -5,6 +5,8 @@ from manager import PictoManager, PictoType
 from language import PictoLanguage
 from PIL import Image, ImageOps, ImageDraw, ImageFont
 
+import uuid
+
 
 class PictoImageHandler:
     def __init__(self, font, text_size, card_dimensions, image_margin):
@@ -22,7 +24,7 @@ class PictoImageHandler:
         text = card.get_text()
         image_path = card.get_image_path()
         bg_color = card.get_bg_color()
-        text_color = card.get_text_color()
+        text_color = (0,0,0)
 
         img = Image.new('RGB', (card_width, card_height), (255, 255, 255))
         
@@ -43,7 +45,7 @@ class PictoImageHandler:
         text_width, text_height = draw.textsize(text, font=text_font)
         draw.text((int((card_width-text_width)/2), image_margin*2 + image_dimensions[0]), text, text_color, font=text_font)
 
-        output_path = "../generated/" + text + "_generated.png"
+        output_path = "./static/generated/" + uuid.uuid1() + ".png"
         img.save(output_path)
         return output_path
     
@@ -73,6 +75,6 @@ class PictoImageHandler:
             img.paste(card_img, (i*cards_repeat, 0))
             i += 1
 
-        output_route = "../generated/cards_generated.png"
+        output_route = "./static/generated/"+uuid.uuid1()+".png"
         img.save(output_route)
         return output_route

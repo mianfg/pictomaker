@@ -1,11 +1,12 @@
 #!/usr/bin/env python
 from __future__ import print_function
-from flask import Flask, render_template, make_response
+from flask import Flask, render_template, make_response, send_from_directory
 from flask import redirect, request, jsonify, url_for
 
 from imagehandler import PictoImageHandler
 from interface import PictoInterface
 from language import PictoLanguage
+from card import PictoCard
 
 
 app = Flask(__name__)
@@ -32,8 +33,33 @@ def post_text():
         cards_json.append(c.to_json())
     
     return jsonify({'cards': cards_json})
-    #return jsonify({'message': "OK"})
 
+
+@app.route('/generate/img', methods = ['POST'])
+def get_img():
+    cards_get = request.form['info']
+    cards = []
+    for c in cards_get:
+        cards.append(PictoCard(c))
+    
+    file = interface.to_img(cards)
+    return send_from_directory("/static/generated", filename=file, as_attachment=True)
+
+
+@app.route('/generate/zip', methods = ['POST'])
+def get_zip():
+    cards_get = request.form['info']
+    cards = []
+    for c in cards_get:
+        cards.append(PictoCard(c))
+    
+    file = interface.to_img(cards)
+    return send_from_directory("/static/generated", filename=file, as_attachment=True)
+
+@app.route('/generate/test')
+def get_test():
+    print("Method entered")
+    return send_from_directory("/static/color", filename="¿.png", as_attachment=True)
 
 
 if __name__ == '__main__':

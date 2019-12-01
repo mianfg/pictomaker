@@ -80,24 +80,19 @@ class PictoInterface():
         cards = []
         for token in tokens:
             picto_route = PictoManager.get_picto(token.get_lemma())#, PictoType.Color)
-            no_items = len(picto_route)
-            if no_items > 0:
-                select = random.randint(0, no_items-1)
-                picto_route = picto_route[select]
-            else:
-                picto_route = ""
-            
-            picto_route = PictoManager.get_route(picto_route, PictoType.Color)
+            #print("THIS IS PICTOROUTE: ")
+            #print(picto_route)
+            #picto_route = PictoManager.get_route(picto_route, PictoType.Color)
             card = PictoCard(token.get_print(), \
                 picto_route, \
                 PictoInterface.color_map[token.get_pos()][0], \
-                PictoInterface.color_map[token.get_pos()][1])
+                token.get_pos())
             
             cards.append(card)
         
         return cards
 
-    def to_card(self, sentence):
+    def to_img(self, sentence):
         tokenized = self.__language.tokenize(sentence)
         cards = self.tokens_to_cards(tokenized)
         self.__image_handler.generate_cards(cards)
