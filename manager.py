@@ -35,7 +35,7 @@ class PictoManager:
     def get_picto(word, color=PictoType.Color):
         paths = []
         path = "./static/color"
-        default_image = "?.png"
+        default_image = "NOTFOUND.png"
 
         if type == PictoType.Color:
             path = "./static/color"
@@ -48,10 +48,10 @@ class PictoManager:
             for filename in files:
                 print(filename)
                 if PictoManager.__is_word(word, filename):
-                    paths.append(path[1:]+'/'+filename)
+                    paths.append(filename)
         
         if len(paths) == 0:
-            paths.append(path[1:]+'/'+default_image)
+            paths.append(default_image)
         
         return paths
     

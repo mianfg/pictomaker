@@ -5,10 +5,9 @@ import json
 
 
 class PictoCard:
-    def __init__(self, text, image_path, bg_color, gramm):
+    def __init__(self, text, image_path, gramm):
         self.__text = text
         self.__image_path = image_path
-        self.__bg_color = bg_color      # html
         self.__gramm = gramm
     
     def get_text(self):
@@ -22,12 +21,6 @@ class PictoCard:
 
     def set_image_path(self, image_path):
         self.__image_path = image_path
-    
-    def get_bg_color(self):
-        return self.__bg_color
-    
-    def set_bg_color(self, bg_color):
-        self.__bg_color = bg_color
 
     def get_gramm(self):
         return self.__gramm
@@ -40,7 +33,6 @@ class PictoCard:
         result = {
             "text" :            self.__text,
             "image_path" :      self.__image_path,
-            "bg_color" :        self.__bg_color,
             "gramm" :      self.__gramm
         }
 

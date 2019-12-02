@@ -1,27 +1,677 @@
-
 <!doctype html>
 <html lang="en">
-  <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <meta name="description" content="">
-    <meta name="author" content="Miguel Ángel (@mianfg)">
 
-    <!-- Bootstrap core CSS -->
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+<head>
 
-    <title>PictoMaker</title>
+  <!-- Global site tag (gtag.js) - Google Analytics -->
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag() { dataLayer.push(arguments); }
+    gtag('js', new Date());
 
-  </head>
+    gtag('config', 'UA-52115242-17');
+  </script>
 
-  
-  <body>
-    <h1 ID="titletag">PictoMaker</h1>
-    <input type="text" id="texto"> <a class="btn btn-primary" id="enviar" onclick="getText()">Enviar</a>
+  <meta charset="utf-8">
+  <title>PictoMaker</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Transforma tus frases en pictogramas">
+  <!-- Begin loading animation -->
+  <style>
+    @keyframes hideLoader {
+      0% {
+        width: 100%;
+        height: 100%;
+      }
 
-<script src="https://code.jquery.com/jquery-3.4.1.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
-<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
-<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
-<script src="../static/js/home.js"></script>
+      100% {
+        width: 0;
+        height: 0;
+      }
+    }
+
+    body>div.loader {
+      position: fixed;
+      background: white;
+      width: 100%;
+      height: 100%;
+      z-index: 1071;
+      opacity: 0;
+      transition: opacity .5s ease;
+      overflow: hidden;
+      pointer-events: none;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    body:not(.loaded)>div.loader {
+      opacity: 1;
+    }
+
+    body:not(.loaded) {
+      overflow: hidden;
+    }
+
+    body.loaded>div.loader {
+      animation: hideLoader .5s linear .5s forwards;
+    }
+
+    .loading-animation {
+      width: 40px;
+      height: 40px;
+      margin: 100px auto;
+      background-color: #2568ef;
+      border-radius: 100%;
+      animation: pulse 1s infinite ease-in-out
+    }
+
+    @keyframes pulse {
+      0% {
+        -webkit-transform: scale(0);
+        transform: scale(0)
+      }
+
+      100% {
+        -webkit-transform: scale(1);
+        transform: scale(1);
+        opacity: 0
+      }
+    }
+  </style>
+  <script type="text/javascript">
+    window.addEventListener("load", function () { document.querySelector('body').classList.add('loaded'); });
+  </script>
+  <!-- End loading animation -->
+  <link href="../static/css/theme.min.css" rel="stylesheet" type="text/css" media="all" />
+  <link href="https://fonts.googleapis.com/css?family=Nunito:400,400i,600,700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+  <link rel="icon" type="image/png" href="/static/img/logos/favicon.png"/>
+</head>
+
+<body>
+  <div class="loader">
+    <div class="loading-animation"></div>
+  </div>
+
+  <section class="bg-gradient p-0 o-hidden">
+    <div class="container min-vh-100 d-flex flex-column justify-content-between text-center py-4 py-md-5">
+      <a href="/" class="fade-page">
+        <img src="../static/img/logos/logo.png" alt="PictoMaker" width="300px">
+      </a>
+      <div class="container my-auto">
+        <!--<div class="row section-title justify-content-center text-center">
+            <div class="col-md-9 col-lg-8 col-xl-7">
+              <h1 class="display-3">PictoMaker</h1>
+              <div class="lead">PictoMaker usa <strong>procesamiento de lenguaje natural</strong> para traducir tu texto a pictogramas. ¡Pruébalo!</div>
+            </div>
+          </div>-->
+        <div class="row justify-content-center" id="input-box">
+          <div class="col-lg-8 col-md-9 text-white">
+            <form>
+              <div class="d-flex flex-column flex-sm-row">
+                <input class="form-control form-control-lg mr-sm-2 mb-2 mb-sm-0 h-100" name="texto"
+                  placeholder="Texto para convertir..." type="text" id="input-text" autocomplete="off">
+                <a href="#" class="btn btn-lg btn-primary" onclick="getText()">
+                  <nobr>Pictogramizar&nbsp;&nbsp;&nbsp;<i class="fa fa-arrow-right"></i></nobr>
+                </a>
+              </div>
+              <div class="text-muted text-white p-3">Un proyecto desarrollado por <a href="https://mianfg.bloomgogo.com/" style="color: #fff">Miguel Ángel (@mianfg)</a> · Pictogramas por <a href="http://http://www.arasaac.org/" style="color: rgba(255,255,255,.5)">ARASAAC</a>
+              </div>
+            </form>
+          </div>
+        </div>
+
+        <div class="container p-5" id="generated-text">
+          <div class="row section-title justify-content-center text-center m-0">
+            <div class="col-md-9 col-lg-8 col-xl-7 text-white m">
+              <h3 class="display-4">Este es tu pictograma</h3>
+              <div class="lead">Hemos generado este pictograma para tu texto. Usa las <strong>opciones de cada carta</strong> o <strong>los ajustes</strong> para
+                modificarla</div>
+            </div>
+          </div>
+          <div class="d-flex flex-wrap justify-content-center text-white align-middle m-5">
+            <div class="custom-control custom-switch mr-4">
+              <a href="#" class="btn btn-sm btn-primary" data-toggle="modal" data-target="#syntax-palette" onclick="setSyntaxColorPickerValues()"><i
+                  class="fa fa-tint"></i>&nbsp;&nbsp;&nbsp;Paleta de sintaxis</a>
+            </div>
+            <div class="custom-control custom-switch mr-4">
+              <input type="checkbox" class="custom-control-input" id="color-switch" checked="">
+              <label class="custom-control-label" for="color-switch" onclick="pressColorSwitch()">Colorear</label>
+            </div>
+          </div>
+        </div>
+        <div id="cards-div">
+          <!-- Aquí se compilan las cartas -->
+          <div class="container">
+            <div class="row">
+              <div class="col-md-6 col-lg-4 mb-3 mb-md-4">
+                <div class="card h-100 hover-box-shadow" style="border: 8px solid rgb(255,0,0)" id="card-ej">
+                  <img class="card-img-top" src="../static/color/al.png" alt="blog.4.image">
+                  <div class="card-body">
+                    <a href="#" data-toggle="modal" data-target="#change-text">
+                      <h3 style="font-family: escolar; font-size: 40px;">Miguel,</h3>
+                    </a>
+                    <a href="#" data-toggle="modal" data-target="#change-syntax">
+                      <p>sustantivo</p>
+                    </a>
+                  </div>
+                  <div class="card-footer d-flex justify-content-between align-items-center">
+                    <div class="badge badge-pill badge-primary-2"><i class="fa fa-arrow-left"></i></div>
+                    <a href="#" class="badge badge-pill badge-primary"><i class="fa fa-arrow-left"></i></a>
+                    <a href="#" class="badge badge-pill badge-info" data-toggle="modal"
+                      data-target="#custom-under-development"><i class="fa fa-camera"></i>&nbsp;&nbsp;&nbsp;Imagen</a>
+                    <a href="#" class="badge badge-pill badge-primary"><i class="fa fa-arrow-right"></i></a>
+                    <div class="badge badge-pill badge-primary-2"><i class="fa fa-arrow-right"></i></div>
+                  </div>
+                </div>
+              </div>
+              <div class="col-md-6 col-lg-4 mb-3 mb-md-4">
+                <div class="card h-100 hover-box-shadow">
+                  <a href="#" class="d-block bg-gradient rounded-top">
+                    <img class="card-img-top hover-fade-out" src="assets/img/blog/thumb-5.jpg" alt="blog.5.image">
+                  </a>
+                  <div class="card-body">
+                    <a href="#">
+                      <h3>Why social ROI is impossible to measure</h3>
+                    </a>
+                    <p>
+                      Sed arcu Jon odio Oberyn lacinia at quis. Brienne fermentum vel porta Jon pulvinar neque.
+                    </p>
+                    <a href="#">Read Story</a>
+                  </div>
+                  <div class="card-footer d-flex justify-content-between align-items-center">
+                    <a href="#" class="badge badge-pill badge-info">Finance</a>
+                    <div class="text-small text-muted">July 21st</div>
+                  </div>
+                </div>
+              </div>
+              <div class="col-md-6 col-lg-4 mb-3 mb-md-4">
+                <div class="card h-100 hover-box-shadow" style="border: 4px solid rgb(255,0,0)" id="card-ej">
+                  <a href="#" class="d-block bg-gradient rounded-top">
+                    <img class="card-img-top hover-fade-out" src="assets/img/blog/thumb-8.jpg" alt="blog.6.image">
+                  </a>
+                  <div class="card-body">
+                    <a href="#">
+                      <h3>Breathing new life into a tired UI</h3>
+                    </a>
+                    <p>
+                      Podrick in massa tempor nec feugiat nisl pretium. Consectetur imp faucibus nisl tincidunt.
+                    </p>
+                    <a href="#">Read Story</a>
+                  </div>
+                  <div class="card-footer d-flex justify-content-between align-items-center">
+                    <a href="#" class="badge badge-pill badge-danger">Design</a>
+                    <div class="text-small text-muted">June 30th</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+        
+            <div class="row">
+              <div class="col-md-6 col-lg-4 mb-3 mb-md-4">
+                <div class="card h-100 hover-box-shadow">
+                  <a href="#" class="d-block bg-gradient rounded-top">
+                    <img class="card-img-top" src="assets/img/blog/thumb-4.jpg" alt="blog.4.image">
+                  </a>
+                  <div class="card-body">
+                    <a href="#">
+                      <h3>It's not just about the clicks. Here's why</h3>
+                    </a>
+                    <p>
+                      Consectetur libero imp faucibus nisl tincidunt. Sansa tellus mauris a diam maecenas sed.
+                    </p>
+                    <a href="#">Read Story</a>
+                  </div>
+                  <div class="card-footer d-flex justify-content-between align-items-center">
+                    <a href="#" class="badge badge-pill badge-primary">Anterior</a>
+                    <a href="#" class="badge badge-pill badge-primary">Imagen</a>
+                    <a href="#" class="badge badge-pill badge-primary">c</a>
+                    <a href="#" class="badge badge-pill badge-primary">Siguiente</a>
+                  </div>
+                </div>
+              </div>
+              <div class="col-md-6 col-lg-4 mb-3 mb-md-4">
+                <div class="card h-100 hover-box-shadow">
+                  <a href="#" class="d-block bg-gradient rounded-top">
+                    <img class="card-img-top hover-fade-out" src="assets/img/blog/thumb-5.jpg" alt="blog.5.image">
+                  </a>
+                  <div class="card-body">
+                    <a href="#">
+                      <h3>Why social ROI is impossible to measure</h3>
+                    </a>
+                    <p>
+                      Sed arcu Jon odio Oberyn lacinia at quis. Brienne fermentum vel porta Jon pulvinar neque.
+                    </p>
+                    <a href="#">Read Story</a>
+                  </div>
+                  <div class="card-footer d-flex justify-content-between align-items-center">
+                    <a href="#" class="badge badge-pill badge-info">Finance</a>
+                    <div class="text-small text-muted">July 21st</div>
+                  </div>
+                </div>
+              </div>
+              <div class="col-md-6 col-lg-4 mb-3 mb-md-4">
+                <div class="card h-100 hover-box-shadow" style="border: 4px solid rgb(255,0,0)" id="card-ej">
+                  <a href="#" class="d-block bg-gradient rounded-top">
+                    <img class="card-img-top hover-fade-out" src="assets/img/blog/thumb-8.jpg" alt="blog.6.image">
+                  </a>
+                  <div class="card-body">
+                    <a href="#">
+                      <h3>Breathing new life into a tired UI</h3>
+                    </a>
+                    <p>
+                      Podrick in massa tempor nec feugiat nisl pretium. Consectetur imp faucibus nisl tincidunt.
+                    </p>
+                    <a href="#">Read Story</a>
+                  </div>
+                  <div class="card-footer d-flex justify-content-between align-items-center">
+                    <a href="#" class="badge badge-pill badge-danger">Design</a>
+                    <div class="text-small text-muted">June 30th</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+        </div>
+
+
+        <div class="row section-title justify-content-center text-center p-5" id="download-buttons" >
+            <div class="col-md-9 col-lg-8 col-xl-7 text-white m">
+            <h4><br>Descarga tu pictograma</h4><p>Una vez que estés contentx con el resultado, puedes descargarlo como PDF, PNG o un ZIP con todas las imágenes</p><div class="d-flex flex-column flex-sm-row justify-content-center mt-4 mt-md-5 aos-init aos-animate" data-aos="fade-up" data-aos-delay="300">
+                    
+                    
+                    <div class="mr-2 mb-2">
+                      <a href="#" class="btn btn-primary btn mx-sm-2 my-1 my-sm-0" data-toggle="modal" data-target="#download" onclick="downloadPDF()">
+                        <div class="d-flex align-items-center">
+                          <span>PDF</span>
+                          
+                        </div>
+                      </a>
+                    </div>
+                  <div class="mr-2 mb-2">
+                      <a href="#" class="btn btn-primary btn mx-sm-2 my-1 my-sm-0" data-toggle="modal" data-target="#download" onclick="downloadPNG()">
+                        <div class="d-flex align-items-center">
+                          <span>PNG</span>
+                          
+                        </div>
+                      </a>
+                    </div><div class="mr-2 mb-2">
+                      <a href="#" class="btn btn-primary btn mx-sm-2 my-1 my-sm-0" data-toggle="modal" data-target="#download" onclick="downloadZIP()">
+                        <div class="d-flex align-items-center">
+                          <span>ZIP</span>
+                          
+                        </div>
+                      </a>
+                    </div>
+                  </div>
+                  
+                  </div>
+            
+                    
+            
+        
+                  
+                </div>
+
+
+        
+        <!-- WIP <div class="blob blob-3 w-50 h-50 bg-white opacity-10 top right" style="mask-image: url('./static/img/blobs/blob-2.svg');"></div>
+      <div class="blob blob-4 w-25 h-25 bg-white opacity-10 bottom left"></div> -->
+          </div>
+          <div class="container" id="more-info">
+              <div>
+                <a href="https://github.com/mianfg/pictomaker" class="btn btn-sm btn-outline-light fade-page"><i class="fa fa-github"></i>&nbsp;&nbsp;&nbsp;Más información</a>
+              </div>
+            </div>
+   </section>
+
+  <a href="#top" class="btn btn-primary rounded-circle btn-back-to-top" data-smooth-scroll data-aos="fade-up"
+    data-aos-offset="2000" data-aos-mirror="true" data-aos-once="false">
+    <img src="assets/img/icons/interface/icon-arrow-up.svg" alt="Icon" class="icon bg-white" data-inject-svg>
+  </a>
+
+  <!-- Modal -->
+  <div class="modal fade" id="syntax-palette" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle"
+    aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLongTitle"><i class="fa fa-tint"></i>&nbsp;&nbsp;&nbsp;Paleta de
+            sintaxis</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <div class="row">
+            <div class="col">
+              <h5>Modifica los colores</h5>
+              <p>Modifique los colores de cada categoría gramatical a continuación.</p>
+            </div>
+
+          </div>
+          <div class="row">
+            <div class="col-md-6">
+              <div class="form-group">
+                <div class="input-group mb-3">
+                  <div class="input-group-prepend">
+                    <span class="input-group-text" style="width:150px;">Sustantivos</span>
+                  </div>
+                  <input class="form-control" placeholder="Color HTML" type="color" style="padding:0;" value="#00ff00" id="color-picker-SUST">
+                </div>
+              </div>
+            </div>
+            <div class="col-md-6">
+              <div class="form-group">
+                <div class="input-group mb-3">
+                  <div class="input-group-prepend">
+                    <span class="input-group-text" style="width:150px;">Adjetivos</span>
+                  </div>
+                  <input class="form-control" placeholder="Color HTML" type="color" style="padding:0;" value="#00ff00" id="color-picker-ADJ">
+                </div>
+              </div>
+            </div>
+            <div class="col-md-6">
+              <div class="form-group">
+                <div class="input-group mb-3">
+                  <div class="input-group-prepend">
+                    <span class="input-group-text" style="width:150px;">Determinantes</span>
+                  </div>
+                  <input class="form-control" placeholder="Color HTML" type="color" style="padding:0;" value="#00ff00" id="color-picker-DET">
+                </div>
+              </div>
+            </div>
+            <div class="col-md-6">
+              <div class="form-group">
+                <div class="input-group mb-3">
+                  <div class="input-group-prepend">
+                    <span class="input-group-text" style="width:150px;">Pronombres</span>
+                  </div>
+                  <input class="form-control" placeholder="Color HTML" type="color" style="padding:0;" value="#00ff00" id="color-picker-PRON">
+                </div>
+              </div>
+            </div>
+            <div class="col-md-6">
+              <div class="form-group">
+                <div class="input-group mb-3">
+                  <div class="input-group-prepend">
+                    <span class="input-group-text" style="width:150px;">Verbos</span>
+                  </div>
+                  <input class="form-control" placeholder="Color HTML" type="color" style="padding:0;" value="#00ff00" id="color-picker-VERB">
+                </div>
+              </div>
+            </div>
+            <div class="col-md-6">
+              <div class="form-group">
+                <div class="input-group mb-3">
+                  <div class="input-group-prepend">
+                    <span class="input-group-text" style="width:150px;">Adverbios</span>
+                  </div>
+                  <input class="form-control" placeholder="Color HTML" type="color" style="padding:0;" value="#00ff00" id="color-picker-ADVERB">
+                </div>
+              </div>
+            </div>
+            <div class="col-md-6">
+              <div class="form-group">
+                <div class="input-group mb-3">
+                  <div class="input-group-prepend">
+                    <span class="input-group-text" style="width:150px;">Preposiciones</span>
+                  </div>
+                  <input class="form-control" placeholder="Color HTML" type="color" style="padding:0;" value="#00ff00" id="color-picker-PREP">
+                </div>
+              </div>
+            </div>
+            <div class="col-md-6">
+              <div class="form-group">
+                <div class="input-group mb-3">
+                  <div class="input-group-prepend" width="400px">
+                    <span class="input-group-text" style="width:150px;">Conjunciones</span>
+                  </div>
+                  <input class="form-control" placeholder="Color HTML" type="color" style="padding:0;" value="#00ff00" id="color-picker-CONJ">
+                </div>
+              </div>
+            </div>
+            <div class="col-md-6">
+              <div class="form-group">
+                <div class="input-group mb-3">
+                  <div class="input-group-prepend">
+                    <span class="input-group-text" style="width:150px;">Interjecciones</span>
+                  </div>
+                  <input class="form-control" placeholder="Color HTML" type="color" style="padding:0;" value="#00ff00" id="color-picker-INTERJ">
+                </div>
+              </div>
+            </div>
+            <div class="col-md-6">
+              <div class="form-group">
+                <div class="input-group mb-3">
+                  <div class="input-group-prepend">
+                    <span class="input-group-text" style="width:150px;">Otros</span>
+                  </div>
+                  <input class="form-control" placeholder="Color HTML" type="color" style="padding:0;" value="#00ff00" id="color-picker-OTHER">
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="row">
+              <div class="col">
+                  <div class="mr-2 mb-2">
+                      <a href="#" class="badge badge-pill badge-danger" onclick="restoreSyntaxPalette()">Restaurar a valores predeterminados</a>
+                    </div>
+                </div>
+          </div>
+        </div>
+        
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+          <button type="button" class="btn btn-primary" onclick="setSyntaxColors()" data-dismiss="modal">Guardar cambios</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal -->
+  <div class="modal fade" id="custom-under-development" tabindex="-1" role="dialog"
+    aria-labelledby="exampleModalLongTitle" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLongTitle"><i class="fa fa-info"></i>&nbsp;&nbsp;&nbsp;En desarrollo
+          </h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <div class="row">
+            <div class="col">
+              <h5>Subir imagen personalizada</h5>
+              <p>Esta versión de la aplicación sólo permite ciclar entre las imágenes sugeridas. Pronto podrás buscar en
+                la librería de pictogramas o subir tus propias imágenes.</p>
+            </div>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal -->
+  <div class="modal fade" id="change-text" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle"
+    aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLongTitle"><i class="fa fa-align-left"></i>&nbsp;&nbsp;&nbsp;Cambiar
+            texto</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <div class="row">
+            <div class="col">
+              <p>Inserte el nuevo texto</p>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col">
+                <div class="form-group">
+                  <div class="input-group mb-3">
+                      <input class="form-control form-control-lg mr-sm-2 mb-2 mb-sm-0 h-100" name="texto"
+                      placeholder="Nuevo texto" type="text" id="input-new-text">
+                  </div>
+                </div>
+              </div>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+          <button type="button" class="btn btn-primary" data-dismiss="modal" onclick="setModalText()">Guardar cambios</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal -->
+  <div class="modal fade" id="change-syntax" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle"
+    aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLongTitle"><i class="fa fa-comment"></i>&nbsp;&nbsp;&nbsp;Cambiar
+            categoría gramatical</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <div class="row">
+            <div class="col">
+              <p>Seleccione la nueva categoría gramatical</p>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col">
+              <fieldset class="form-group"></fieldset>
+
+              <div class="custom-control custom-radio mr-4">
+                <input class="custom-control-input" type="radio" name="gridRadios" id="gridRadios1" value="SUST"
+                  checked>
+                <label class="custom-control-label" for="gridRadios1">
+                  Sustantivo
+                </label>
+              </div>
+              <div class="custom-control custom-radio mr-4">
+                <input class="custom-control-input" type="radio" name="gridRadios" id="gridRadios2" value="ADJ">
+                <label class="custom-control-label" for="gridRadios2">
+                  Adjetivo
+                </label>
+              </div>
+              <div class="custom-control custom-radio mr-4">
+                <input class="custom-control-input" type="radio" name="gridRadios" id="gridRadios3" value="DET">
+                <label class="custom-control-label" for="gridRadios3">
+                  Determinante
+                </label>
+              </div>
+              <div class="custom-control custom-radio mr-4">
+                <input class="custom-control-input" type="radio" name="gridRadios" id="gridRadios4" value="PRON">
+                <label class="custom-control-label" for="gridRadios4">
+                  Pronombre
+                </label>
+              </div>
+              <div class="custom-control custom-radio mr-4">
+                <input class="custom-control-input" type="radio" name="gridRadios" id="gridRadios5" value="VERB">
+                <label class="custom-control-label" for="gridRadios5">
+                  Verbo
+                </label>
+              </div>
+              <div class="custom-control custom-radio mr-4">
+                <input class="custom-control-input" type="radio" name="gridRadios" id="gridRadios6" value="ADVERB">
+                <label class="custom-control-label" for="gridRadios6">
+                  Adverbio
+                </label>
+              </div>
+              <div class="custom-control custom-radio mr-4">
+                <input class="custom-control-input" type="radio" name="gridRadios" id="gridRadios7" value="PREP">
+                <label class="custom-control-label" for="gridRadios7">
+                  Preposición
+                </label>
+              </div>
+              <div class="custom-control custom-radio mr-4">
+                <input class="custom-control-input" type="radio" name="gridRadios" id="gridRadios8" value="CONJ">
+                <label class="custom-control-label" for="gridRadios8">
+                  Conjunción
+                </label>
+              </div>
+              <div class="custom-control custom-radio mr-4">
+                <input class="custom-control-input" type="radio" name="gridRadios" id="gridRadios9" value="INTERJ">
+                <label class="custom-control-label" for="gridRadios9">
+                  Interjección
+                </label>
+              </div>
+              <div class="custom-control custom-radio mr-4">
+                <input class="custom-control-input" type="radio" name="gridRadios" id="gridRadios10" value="OTHER">
+                <label class="custom-control-label" for="gridRadios10">
+                  Otro
+                </label>
+              </div>
+              </fieldset>
+            </div>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+          <button type="button" class="btn btn-primary" data-dismiss="modal" onclick="setModalSyntax()">Guardar cambios</button>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+
+  <!-- Modal -->
+  <div class="modal fade" id="download" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle"
+    aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLongTitle"><i class="fa fa-download"></i>&nbsp;&nbsp;&nbsp;Estamos creando su archivo</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <div class="row">
+            <div class="col">
+              <p>Estamos procesando su archivo. En unos instantes, se descargará en su navegador.</p>
+              <p>¡Gracias por usar PictoMaker!</p>
+            </div>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+
+  </div>
+  <!-- Required vendor scripts (Do not remove) -->
+  <script src="https://code.jquery.com/jquery-3.4.1.min.js"
+    integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"
+    integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo"
+    crossorigin="anonymous"></script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"
+    integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6"
+    crossorigin="anonymous"></script>
+  <script src="../static/js/app.js"></script>
 </body>
+
 </html>

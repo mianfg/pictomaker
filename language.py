@@ -39,6 +39,28 @@ class PictoWord:
         'SPACE'     # space -- note: tokenizer deletes this
     ]
 
+    MAP = {
+        'ADJ' :     "ADJ",
+        'ADP' :     "PREP",
+        'ADV' :     "ADVERB",
+        'AUX' :     "OTHER",
+        'CONJ' :    "CONJ",
+        'CCONJ' :   "CCONJ",
+        'DET' :     "DET",
+        'INTJ' :    "INTERJ",
+        'NOUN' :    "SUST",
+        'NUM' :     "PRON",
+        'PART' :    "OTHER",
+        'PRON' :    "PRON",
+        'PROPN' :   "SUST",
+        'PUNCT' :   "OTHER",
+        'SCONJ' :   "CONJ",
+        'SYM' :     "OTHER",
+        'VERB' :    "VERB",
+        'X' :       "OTHER",
+        'SPACE' :   "OTHER"     # space -- note: tokenizer deletes this
+    }
+
     def __init__(self, print, lemma, pos, picto="", type=PictoType.Color):
         self.__print = print
         self.__lemma = lemma
@@ -65,7 +87,7 @@ class PictoWord:
         self.__lemma = lemma
     
     def get_pos(self):
-        return self.__pos
+        return PictoWord.MAP[self.__pos]
     
     def set_pos(self, pos):
         if pos not in PictoWord.POS:

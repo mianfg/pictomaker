@@ -85,7 +85,6 @@ class PictoInterface():
             #picto_route = PictoManager.get_route(picto_route, PictoType.Color)
             card = PictoCard(token.get_print(), \
                 picto_route, \
-                PictoInterface.color_map[token.get_pos()][0], \
                 token.get_pos())
             
             cards.append(card)
