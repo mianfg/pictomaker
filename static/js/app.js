@@ -14,6 +14,7 @@ var syntaxColors = {
     'OTHER' : "#eeeeee"
 }
 
+var staticbase = "https://raw.githubusercontent.com/mianfg/pictomaker/master/static/"
 var cardtype = "color"
 var changenum = -1
 
@@ -153,7 +154,7 @@ function insertArrowsHTML(num, mode) {
 }
 
 function getImage(num) {
-    return "/static/"+cardtype+"/"+cartas[num].image_path[imgs[num]];
+    return staticbase+cardtype+"/"+cartas[num].image_path[imgs[num]];
 }
 
 function mod(num, total) {
