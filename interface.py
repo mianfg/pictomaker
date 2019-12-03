@@ -70,19 +70,10 @@ class PictoInterface():
         self.__language = language
         self.__image_handler = image_handler
 
-    def get_config(self):
-        pass    # devolver valores de colores
-
-    def new_cards(self):
-        pass
-
     def tokens_to_cards(self, tokens):
         cards = []
         for token in tokens:
-            picto_route = PictoManager.get_picto(token.get_lemma())#, PictoType.Color)
-            #print("THIS IS PICTOROUTE: ")
-            #print(picto_route)
-            #picto_route = PictoManager.get_route(picto_route, PictoType.Color)
+            picto_route = PictoManager.get_picto(token.get_lemma())
             card = PictoCard(token.get_print(), \
                 picto_route, \
                 token.get_pos())

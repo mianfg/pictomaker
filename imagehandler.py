@@ -5,16 +5,19 @@ from manager import PictoManager, PictoType
 from language import PictoLanguage
 from PIL import Image, ImageOps, ImageDraw, ImageFont
 from io import BytesIO
+import urllib.request
+import requests
 
 import uuid, zipfile, os
 
 
 class PictoImageHandler:
-    def __init__(self, font, text_size, card_dimensions, image_margin):
+    def __init__(self, font, text_size, card_dimensions, image_margin, base_path):
         self.__font = font
         self.__text_size = text_size
         self.__card_dimensions = card_dimensions
         self.__image_margin = image_margin
+        self.__base_path = base_path
 
     def generate_card(self, card):
         card_width, card_height = self.__card_dimensions
@@ -80,7 +83,7 @@ class PictoImageHandler:
         img.save(bytes_io, "PNG")
         return bytes_io
 
-    def generate_card2(self, text, color, image_path):
+    def generate_card2(self, text, color, image_url):
         card_width, card_height = self.__card_dimensions
         image_margin = self.__image_margin
         image_dimensions = card_width - image_margin*2
@@ -91,9 +94,9 @@ class PictoImageHandler:
         img = Image.new('RGB', (card_width, card_height), (255, 255, 255))
 
         try:
-            picto = Image.open(image_path, 'r')
+            picto = Image.open(requests.get(image_url, stream=True).raw)
         except:
-            picto = Image.new('RGB', (card_width, card_height), (0,0,0))
+            picto = Image.new('RGB', (card_width, card_height), (255,255,255))
         
         draw = ImageDraw.Draw(img)
         draw.rectangle([(self.__image_margin/4,self.__image_margin/4), (self.__card_dimensions[0]-self.__image_margin/4,self.__card_dimensions[1]-self.__image_margin/4)], fill=color)
@@ -108,7 +111,6 @@ class PictoImageHandler:
 
         bytes_io = BytesIO()
         img.save(bytes_io, "PNG")
-        print("saved successfully")
         return bytes_io
 
     def generate_PNG(self, dictionary, join=False):
@@ -168,7 +170,7 @@ class PictoImageHandler:
         for card in cards:
             filename = beginning+str(i)+"_"+card['text']+".png"
             io = BytesIO()
-            io = self.generate_card2(card['text'], colors[card['gramm']], "./static/"+type+"/"+card['image_path'][images[i]])
+            io = self.generate_card2(card['text'], colors[card['gramm']], self.__base_path+type+"/"+card['image_path'][images[i]])
             data = io.getvalue()
             io.close()
             files.append((filename, data))

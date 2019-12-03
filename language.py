@@ -1,19 +1,6 @@
-import nltk
+import nltk, spacy
 from nltk.tokenize import sent_tokenize
-from enum import Enum
-from manager import PictoManager, PictoType
-
-import spacy
-
-
-class PictoWordType(Enum):
-    Sustantivo      = 1
-    Determinante    = 2
-    AdjAdv          = 3
-    Verbo           = 4
-    # Preposición / Conjunción
-    PrepConj        = 5
-    Otro            = 6
+from manager import PictoManager
 
 
 class PictoWord:
@@ -61,18 +48,11 @@ class PictoWord:
         'SPACE' :   "OTHER"     # space -- note: tokenizer deletes this
     }
 
-    def __init__(self, print, lemma, pos, picto="", type=PictoType.Color):
+    def __init__(self, print, lemma, pos, picto=""):
         self.__print = print
         self.__lemma = lemma
         self.__pos = pos
         self.__picto = picto
-        # if picto == "":
-        #     pictos = PictoManager.get_picto(print)
-        #     if len(pictos) > 0:
-        #         picto = pictos[0]
-        #     else:
-        #         picto = ""
-        self.__type = type
     
     def get_print(self):
         return self.__print
@@ -94,12 +74,6 @@ class PictoWord:
             pos = 'X'
         
         self.__pos = pos
-
-    def get_type(self):
-        return self.__type
-    
-    def set_type(self, type):
-        self.__type = type
 
 
 class PictoLanguage:

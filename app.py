@@ -25,8 +25,8 @@ def post_text():
     cards = interface.get_cards(text)
     cards_json = []
     for c in cards:
-        print(c.to_json())
-        cards_json.append(c.to_json())
+        print(c.to_dict())
+        cards_json.append(c.to_dict())
     
     return jsonify({'cards': cards_json})
 
@@ -90,8 +90,10 @@ if __name__ == '__main__':
         font = "./static/fonts/escolar_bold.ttf",
         text_size = 90,
         card_dimensions = (600,750),
-        image_margin = 50
+        image_margin = 50,
+        base_path = "https://raw.githubusercontent.com/mianfg/pictomaker/master/static/"
     )
+
     print("Starting language toolkit...")
     language = PictoLanguage()
     print("Language toolkit started")

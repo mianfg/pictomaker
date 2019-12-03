@@ -28,7 +28,7 @@ class PictoCard:
     def set_gramm(self, gramm):
         self.__gramm = gramm
 
-    def to_json(self):
+    def to_dict(self):
         # create dict
         result = {
             "text" :            self.__text,
@@ -36,4 +36,4 @@ class PictoCard:
             "gramm" :      self.__gramm
         }
 
-        return result #json.dumps(dict)
+        return result
