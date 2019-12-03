@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
-from manager import PictoManager, PictoType
+from manager import PictoManager
 from language import PictoLanguage
 from PIL import Image, ImageOps, ImageDraw, ImageFont
 from io import BytesIO

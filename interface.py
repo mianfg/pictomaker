@@ -1,7 +1,7 @@
 from card import PictoCard
 from language import PictoLanguage
 from imagehandler import PictoImageHandler
-from manager import PictoManager, PictoType
+from manager import PictoManager
 
 import random
 
