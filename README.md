@@ -6,6 +6,8 @@
 
 > Created by **Miguel Ángel Fernández Gutiérrez** · https://mianfg.bloomgogo.com/
 
+> **Try this app out at <https://pictomaker.herokuapp.com/>!**
+
 ## Introduction
 
 **PictoMaker** is a web app that translates texts into sequences of pictograms.
@@ -23,7 +25,7 @@ PictoMaker includes the following features:
   * ZIP: individual cards, as PNG, compressed.
   * PDF: for printing.
 
-And much more! You can test it at <https://pictomaker.heroku.com/>
+And much more! You can test it at <https://pictomaker.herokuapp.com/>
 
 > **Important notice:** as of the most recent update, PictoMaker only supports Spanish.
 
