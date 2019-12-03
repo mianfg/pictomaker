@@ -10,15 +10,30 @@
 
 **PictoMaker** is a web app that translates texts into sequences of pictograms.
 
-> NOTE: as of the latest update, PictoMaker only supports Spanish.
+## Features
+
+PictoMaker includes the following features:
+
+* **Sytactical analysis** using a natural language toolkit (`nltk`).
+* **Syntax highlighting**, coloring the borders of each card depending on the category of the word.
+* **Custom highlighting styles**: the border color can be changed.
+* **Colored/uncolored pictograms**: can switch between colored pictograms and black and white pictograms.
+* **File export:** cards can be exported to:
+  * PNG: single image with the entire sentence.
+  * ZIP: individual cards, as PNG, compressed.
+  * PDF: for printing.
+
+And much more! You can test it at <https://pictomaker.heroku.com/>
+
+> **Important notice:** as of the most recent update, PictoMaker only supports Spanish.
 
 ## Run locally
 
-To locally run the app, you must run the following commands:
+To locally run the app, you must execute the following commands:
 
 ```bash
 pip install -r requirements.txt
-python -m spacy download es_core_news_md
+python -m spacy download es_core_news_sm
 ```
 
 Then type the following command to run the app in a development Flask server, on `0.0.0.0:5000`:
