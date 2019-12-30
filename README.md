@@ -15,7 +15,7 @@
 
 > This app is **under development**, and the scripts provided **lack documentation**. Some of the code may be written in a not-so-pretty way, but do not worry -- I am working to tidy all this up as soon as possible!
 >
-> The documentation will be presumably finished once all the features that are on my waitlist are implemented. Thanks for the patience! :happy:
+> The documentation will be presumably finished once all the features that are on my waitlist are implemented. Thanks for the patience! 😄
 
 ## Features
 
