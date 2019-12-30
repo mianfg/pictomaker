@@ -4,7 +4,7 @@
 
 <h1 align="center"><p align="center">PictoMaker</h1></h1>
 
-> Created by **Miguel Ángel Fernández Gutiérrez** · https://mianfg.bloomgogo.com/
+> Created by **Miguel Ángel Fernández Gutiérrez** · https://mianfg.bloomgogo.com/  
 > **Try this app out at <https://pictomaker.herokuapp.com/>!**
 
 ## Introduction
