@@ -26,7 +26,7 @@ class PictoManager:
         return word.lower() == filename.split('.')[0].split('_')[0].lower()
 
     @staticmethod
-    def get_picto(word):
+    def get_picto(word, append_default=True):
         paths = []
         default_image = "NOTFOUND.png"
 
@@ -34,7 +34,9 @@ class PictoManager:
             if PictoManager.__is_word(word, filename):
                 paths.append(filename)
         
-        if len(paths) == 0:
+        if len(paths) == 0 and append_default:
             paths.append(default_image)
+        
+        paths.sort()
         
         return paths

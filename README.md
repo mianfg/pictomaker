@@ -20,12 +20,13 @@ PictoMaker includes the following features:
 * **Syntax highlighting**, coloring the borders of each card depending on the category of the word.
 * **Custom highlighting styles**: the border color can be changed.
 * **Colored/uncolored pictograms**: can switch between colored pictograms and black and white pictograms.
+* **Pictogram search engine**: you can change the photos using our search engine, or you can add your **custom ones** via URL.
 * **File export:** cards can be exported to:
   * PNG: single image with the entire sentence.
   * ZIP: individual cards, as PNG, compressed.
-  * PDF: for printing.
+  * PDF: for printing. _(Under development)_
 
-And much more! You can test it at <https://pictomaker.herokuapp.com/>
+And much more! You can test it out at <https://pictomaker.herokuapp.com/>
 
 > **Important notice:** as of the most recent update, PictoMaker only supports Spanish.
 

@@ -1,6 +1,12 @@
 var cartas;
 var imgs;
 
+/*$('a[href="#"]').click(function(event){
+
+    event.preventDefault();
+
+});*/
+
 var syntaxColors = {
     'SUST' : "#d32f2f",
     'ADJ' : "#2e7d32",
@@ -12,30 +18,116 @@ var syntaxColors = {
     'PREP' : "#c2185b",
     'CONJ' : "#c2185b",
     'OTHER' : "#eeeeee"
-}
+};
 
 var staticbase = "https://raw.githubusercontent.com/mianfg/pictomaker/master/static/"
 var cardtype = "color"
+var selected_search_path = ""
 var changenum = -1
+var search_paths = []
 
 var types = ["SUST", "ADJ", "DET", "PRON", "VERB", "ADVERB", "INTERJ", "PREP", "CONJ", "OTHER"]
 
 $(document).ready(function () {
     // Al iniciar la aplicación solo se ve la pantalla principal
     showWelcomeWindow();
+    var termTemplate = "<span class='ui-autocomplete-term'>%s</span>";
+    
+    /* $('#search').autocomplete({
+        source: ['java', 'javascript', 'asp.net', 'PHP'],
+        open: function(e,ui) {
+            var
+                acData = $(this).data('autocomplete'),
+                styledTerm = termTemplate.replace('%s', acData.term);
+
+            acData
+                .menu
+                .element
+                .find('a')
+                .each(function() {
+                    var me = $(this);
+                    me.html( me.text().replace(acData.term, styledTerm) );
+                });
+        }
+    }); */
+    var charMap = {
+        "à": "a", "â": "a", "é": "e", "è": "e", "ê": "e", "ë": "e",
+        "ï": "i", "î": "i", "ô": "o", "ö": "o", "û": "u", "ù": "u"
+    };
+    var normalize = function (input) {
+        $.each(charMap, function (unnormalizedChar, normalizedChar) {
+           var regex = new RegExp(unnormalizedChar, 'gi');
+           input = input.replace(regex, normalizedChar);
+        });
+        return input;
+       }
+
+       var queryTokenizer = function(q) {
+        var normalized = normalize(q);
+        return Bloodhound.tokenizers.whitespace(normalized);
+    };
+    
+    var words_suggestion = new Bloodhound({
+        datumTokenizer: Bloodhound.tokenizers.whitespace,
+        queryTokenizer: queryTokenizer,
+        prefetch: "/static/words.json"
+    });
+        
+		
+    $('#scrollable-dropdown-menu .typeahead').typeahead(null, {
+        highlight: true,
+        name: 'words',
+        limit: 100,
+        source: words_suggestion
+    });
+           /* { minLength: 1,
+                limit: 3 },
+			{ source: countries_suggestion }
+        );*/
+    $('#picture-scroll').hide()
+    $('#empty-search-notice').hide()
 });
+
 
 // Esta función recoge la oración y pide a la API las cartas correspondientes.
 function getText() {
-    $.post("/textpost", {
-        text: $('#input-text').val()
+    if ( $('#input-text').val() == "" ) {
+        alertNoText();
+    } else {
+        $.post("/textpost", {
+            text: $('#input-text').val()
+        }).done(function( data ) {
+            cartas = data['cards'];
+            imgs = new Array(cartas.length).fill(0);
+            console.log(cartas);
+            // Una vez tenemos las cartas, las renderizamos
+            populateCards();
+            showCardsWindow();
+            
+        })
+        .fail(function () {
+            console.log ("Ha sido imposible contactar con el servidor")
+            //Lo suyo es que saliera aquí un mensaje en el formulario
+        });
+    }
+}
+
+function searchPictos(avoid_error_message=false) {
+    $('#picture-scroll').hide()
+    $('#empty-search-notice').hide()
+    $.post("/imagesearch", {
+        text: $('#input-search').val()
     }).done(function( data ) {
-        cartas = data['cards'];
-        imgs = new Array(cartas.length).fill(0);
-        console.log(cartas);
-        // Una vez tenemos las cartas, las renderizamos
-        populateCards();
-        showCardsWindow();
+        search_paths = data['results']
+        populateSearchCards();
+        if ( search_paths.length > 0 ) {
+            $('#picture-scroll').show()
+            $('#empty-search-notice').hide()
+        } else {
+            $('#picture-scroll').hide()
+            if (!avoid_error_message)
+                $('#empty-search-notice').show()
+        }
         
     })
     .fail(function () {
@@ -43,7 +135,6 @@ function getText() {
         //Lo suyo es que saliera aquí un mensaje en el formulario
     });
 }
-
 
 function downloadPNG() {
     vals = {
@@ -55,13 +146,20 @@ function downloadPNG() {
     $.post("/generate/png", {
         values: JSON.stringify(vals)
     }).done(function( data ) {
-        console.log("Receiving PNG")
-        
+        url = data['url']
+        filename = data['filename']
+        console.log("Received PNG: " + url)
+        var a = document.createElement('a')
+        a.href = url
+        a.download = filename
+        a.click()
+        deleteFromServer(url)
     })
     .fail(function () {
-        console.log ("Ha sido imposible contactar con el servidor")
+        console.error("Ha sido imposible contactar con el servidor")
     });
 }
+
 
 function downloadZIP() {
     vals = {
@@ -73,13 +171,45 @@ function downloadZIP() {
     $.post("/generate/zip", {
         values: JSON.stringify(vals)
     }).done(function( data ) {
-        console.log("Receiving ZIP")
-        
+        url = data['url']
+        filename = data['filename']
+        console.log("Received ZIP: " + url)
+        var a = document.createElement('a')
+        a.href = url
+        a.download = filename
+        a.click()
+        deleteFromServer(url)
     })
     .fail(function () {
-        console.log ("Ha sido imposible contactar con el servidor")
+        console.error("Ha sido imposible contactar con el servidor")
     });
 }
+
+function deleteFromServer(dir) {
+    vals = {
+        url: dir
+    }
+    $.post("/generate/delete", {
+        values: JSON.stringify(vals)
+    }).done(function( data ) {
+        console.log("Deleted from server: " + dir)
+    })
+    .fail(function () {
+        console.error("Could not delete from server: " + dir);
+    })
+}
+
+$("#input-text").keyup(function(event) {
+    if (event.keyCode === 13) {
+        getText();
+    }
+});
+
+$("#input-search").keyup(function(event) {
+    if (event.keyCode === 13) {
+        searchPictos();
+    }
+});
 
 //Muestra la pantalla de inicio
 function showWelcomeWindow(){
@@ -87,7 +217,12 @@ function showWelcomeWindow(){
     $('#generated-text').hide()
     $('#cards-div').hide()
     $('#download-buttons').hide()
+    $('#notext-alert').hide()
 };
+
+function alertNoText(){
+    $('#notext-alert').show()
+}
 
 //Muestra la pantalla de selección de cartas
 function showCardsWindow(){
@@ -100,9 +235,14 @@ function showCardsWindow(){
 function populateCards(){
     // Funcion que parsea el JSON general y lo renderiza.
     new_HTML = "";
-    lastclose = false;
+    //lastclose = false;
 
-    for ( i=0; i<cartas.length; i++ ) {
+    new_HTML += `<div class="row">`
+    for ( i=0; i<cartas.length; i++ )
+        new_HTML += populateCard(cartas[i],i);
+    new_HTML += `<div>`
+
+    /*for ( i=0; i<cartas.length; i++ ) {
         //Render a card e inyectarla en el HTML
         if ( i % 3 == 0 ) {
             new_HTML += `<div class="row">`
@@ -117,10 +257,40 @@ function populateCards(){
     }
 
     if ( !lastclose )
-        new_HTML += `</div>`
+        new_HTML += `</div>`*/
 
     document.getElementById("cards-div").innerHTML = new_HTML;
 };
+
+function populateSearchCards() {
+    new_HTML = "";
+    //lastclose = false;
+
+    new_HTML += `<div class="row top-buffer" style="width:100%;">`;
+    for ( i=0; i<search_paths.length; i++ )
+        new_HTML += populateSearchCard(search_paths[i]);
+    new_HTML += `</div>`;
+    
+    /*for ( i = 0; i < search_paths.length; i++ ) {
+        if ( i % 3 == 0 ) {
+            if ( i == 0 ) {
+                new_HTML += `<div class="row top-buffer" style="width:100%;">`
+            } else {
+                new_HTML += `<div class="row" style="width:100%;">`
+            }
+        }
+        new_HTML += populateSearchCard(search_paths[i]);
+        if ( i % 3 == 2 ) {
+            new_HTML += `</div>`
+            lastclose = true;
+        }
+    }
+
+    if ( !lastclose )
+        new_HTML += `</div>`*/
+
+    document.getElementById("search-cards-div").innerHTML = new_HTML;
+}
 
 function populateCard(card, num){
     console.log(card);
@@ -136,21 +306,61 @@ function populateCard(card, num){
         </a>
       </div>
       <div class="card-footer d-flex justify-content-between align-items-center">
-        <div ${insertArrowsHTML(num, "prev")}><i class="fa fa-arrow-left"></i></div>
-        <a href="#" class="badge badge-pill badge-info" data-toggle="modal"
-          data-target="#custom-under-development"><i class="fa fa-camera"></i>&nbsp;&nbsp;&nbsp;Imagen</a>
-        <div ${insertArrowsHTML(num, "next")}><i class="fa fa-arrow-right"></i></div>
+        <a role="button" ${insertArrowsHTML(num, "prev")}><i class="fa fa-arrow-left"></i></a>
+        <a role="button" class="badge badge-pill badge-info" data-toggle="modal"
+          data-target="#custom-under-development" onclick="openModalImage(${num})"><i class="fa fa-camera"></i>&nbsp;&nbsp;&nbsp;Cambiar imagen</a>
+        <a role="button" ${insertArrowsHTML(num, "next")}><i class="fa fa-arrow-right"></i></a>
       </div>
     </div>
   </div>`
   return texto;
 };
 
+function populateSearchCard(path) {
+    border = ""
+    if (false) //wip
+        border = `style="border: 8px solid #1565c0"`
+    texto = `<div class="col-md-6 col-lg-4 mb-3 mb-md-4"><div class="card h-100 hover-box-shadow" ${border} id="card-${path}">
+    <img class="card-img-top selectable" id="img-${path}" src="${staticbase+cardtype+"/"+path}" alt="pictograma" onclick="changeImage('${path}')"> 
+    </div></div>`
+    return texto;
+}
+
+function changeImage(path) {
+    for ( i = 0; i < search_paths.length; i++ )
+        document.getElementById("card-"+search_paths[i]).style.border = ""
+    document.getElementById("card-"+path).style.border = "4px solid #1565c0"
+    selected_search_path = path;
+    console.log("NEW selected path: "+selected_search_path)
+}
+
+function openModalImage(num) {
+    $('#picture-scroll').hide()
+    $('#empty-search-notice').hide()
+    document.getElementById('input-search').value = cartas[num].text;
+    changenum = num;
+    searchPictos(true)
+}
+
+function setModalImage() {
+    imgs[changenum] = cartas[changenum].image_path.indexOf(selected_search_path);
+    if ( imgs[changenum] == -1 ) {
+        imgs[changenum] = cartas[changenum].image_path.length;
+        cartas[changenum].image_path.push(selected_search_path);
+        document.getElementById("prev-arrow-"+changenum).className = "badge badge-pill badge-primary"
+        document.getElementById("next-arrow-"+changenum).className = "badge badge-pill badge-primary"
+    }
+    
+    console.log(imgs)
+    console.log(cartas[changenum].image_path);
+    refreshImages();
+}
+
 function insertArrowsHTML(num, mode) {
     if ( cartas[num].image_path.length > 1 )
-        return `class="badge badge-pill badge-primary" onclick="${mode}Image(${num})"`
+        return `class="badge badge-pill badge-primary" onclick="${mode}Image(${num})" id="${mode}-arrow-${num}"`
     else
-        return `class="badge badge-pill badge-primary-2"`
+        return `class="badge badge-pill badge-primary-2" onclick="${mode}Image(${num})" id="${mode}-arrow-${num}"`
 }
 
 function getImage(num) {
@@ -283,4 +493,28 @@ function setModalSyntax() {
 
 function downloadPDF(type) {
     console.log("Downloading PDF")
+}
+
+function verifyURL() {
+    $('#invalid-image-notice').hide()
+    $('#input-text').val() = ""
+    verifyImageURL($('#input-url').val(), function(imageExists) {
+        if (imageExists)
+            console.log("Image exists")
+        else {
+            console.log("Image does not exist")
+            $('#invalid-image-notice').show()
+        }
+    });
+}
+
+function verifyImageURL(url, callBack) {
+    var img = new Image();
+    img.src = url;
+    img.onload = function () {
+        callBack(true);
+    };
+    img.onerror = function () {
+        callBack(false);
+    };
 }

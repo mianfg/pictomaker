@@ -78,7 +78,7 @@ class PictoWord:
 
 class PictoLanguage:
     def __init__(self):
-        self.__NLP = spacy.load("es_core_news_md") # WIP load before
+        self.__NLP = spacy.load("es_core_news_sm") # WIP load before
 
     def tokenize(self, sentence):
         """
@@ -128,5 +128,14 @@ class PictoLanguage:
         for i in range(0, len(print_arr)):
             word = PictoWord(print_arr[i], lemma_arr[i], pos_arr[i])
             tokens.append(word)
+        
+        # WIP word grouping using (( ... ))
 
         return tokens
+
+
+
+"""test
+l = PictoLanguage()
+print(l.tokenize("El pequeño ((Miguel Ángel)) quiere ir a su casa."))
+"""

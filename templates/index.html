@@ -83,10 +83,13 @@
     window.addEventListener("load", function () { document.querySelector('body').classList.add('loaded'); });
   </script>
   <!-- End loading animation -->
+  <link rel="stylesheet" type="text/css"
+    href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8/themes/excite-bike/jquery-ui.css">
+
   <link href="../static/css/theme.min.css" rel="stylesheet" type="text/css" media="all" />
   <link href="https://fonts.googleapis.com/css?family=Nunito:400,400i,600,700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-  <link rel="icon" type="image/png" href="/static/img/logos/favicon.png"/>
+  <link rel="icon" type="image/png" href="/static/img/logos/favicon.png" />
 </head>
 
 <body>
@@ -108,229 +111,182 @@
           </div>-->
         <div class="row justify-content-center" id="input-box">
           <div class="col-lg-8 col-md-9 text-white">
-            <form>
-              <div class="d-flex flex-column flex-sm-row">
-                <input class="form-control form-control-lg mr-sm-2 mb-2 mb-sm-0 h-100" name="texto"
-                  placeholder="Texto para convertir..." type="text" id="input-text" autocomplete="off">
-                <a href="#" class="btn btn-lg btn-primary" onclick="getText()">
-                  <nobr>Pictogramizar&nbsp;&nbsp;&nbsp;<i class="fa fa-arrow-right"></i></nobr>
-                </a>
-              </div>
-              <div class="text-muted text-white p-3">Un proyecto desarrollado por <a href="https://mianfg.bloomgogo.com/" style="color: #fff">Miguel Ángel (@mianfg)</a> · Pictogramas por <a href="http://http://www.arasaac.org/" style="color: rgba(255,255,255,.5)">ARASAAC</a>
-              </div>
-            </form>
+            <div class="alert alert-danger" role="alert" id="notext-alert">
+              Por favor, inserte texto a generar. <strong>¡Se lo traduciremos al instante!</strong>
+            </div>
+            <div class="d-flex flex-column flex-sm-row">
+              <input class="form-control form-control-lg mr-sm-2 mb-2 mb-sm-0 h-100" name="texto"
+                placeholder="Texto para convertir..." type="text" id="input-text" autocomplete="off"
+                aria-autocomplete="off">
+              <a role="button" class="btn btn-lg btn-primary" onclick="getText()">
+                <nobr>Pictogramizar&nbsp;&nbsp;&nbsp;<i class="fa fa-arrow-right"></i></nobr>
+              </a>
+            </div>
+            <div class="text-muted text-white p-3">Un proyecto desarrollado por <a href="https://mianfg.bloomgogo.com/"
+                class="whitelink" onmouseover="this.style.color = '#739bea'" onmouseout="this.style.color = '#fff'"
+                style="color: rgb(255, 255, 255);">Miguel Ángel (@mianfg)</a> · Pictogramas por <a
+                href="http://www.arasaac.org/" style="color: rgba(255,255,255,.5)" onmouseover="this.style.color = '#739bea'" onmouseout="this.style.color = 'rgba(255,255,255,.5)'">ARASAAC</a>
+            </div>
+            <!--<div class="text-muted text-white p-3">
+                  <p><a data-toggle="modal" data-target="#help" role="button" class="whitelink" onmouseover="this.style.color = '#739bea'" onmouseout="this.style.color = '#fff'" style="color: rgb(255, 255, 255);"><i class="fa fa-life-ring"></i>&nbsp;&nbsp;¿Necesitas ayuda?</a></p>
+                        </div>-->
+            <div class="text-muted text-white p-3">
+
+              <div class="mr-2 mb-2">
+                <a role="button" class="selectable btn btn-sm btn-outline-light fade-page" data-toggle="modal"
+                  data-target="#help" role="button" style="margin-left:10px;margin-right:10px;margin-top:10px;margin-bottom:10px;"><i
+                    class="fa fa-life-ring"></i>&nbsp;&nbsp;&nbsp;¿Necesitas ayuda?</a>
+                <a href="https://github.com/mianfg/pictomaker" class="btn btn-sm btn-outline-light fade-page"
+                  style="margin-left:10px;margin-right:10px;margin-top:10px;margin-bottom:10px;"><i class="fa fa-info-circle"></i>&nbsp;&nbsp;&nbsp;Sobre
+                  PictoMaker</a></div>
+            </div>
           </div>
         </div>
 
         <div class="container p-5" id="generated-text">
-          <div class="row section-title justify-content-center text-center m-0">
+          <div class="row section-title justify-content-center text-center">
             <div class="col-md-9 col-lg-8 col-xl-7 text-white m">
               <h3 class="display-4">Este es tu pictograma</h3>
-              <div class="lead">Hemos generado este pictograma para tu texto. Usa las <strong>opciones de cada carta</strong> o <strong>los ajustes</strong> para
+              <div class="lead" style="margin-bottom:10px">Hemos generado este pictograma para tu texto. Usa las
+                <strong>opciones de cada carta</strong> o los <strong>ajustes</strong> para
                 modificarla</div>
+              <p><a href="#" class="whitelink" onmouseover="this.style.color = '#fff'"
+                  onmouseout="this.style.color = '#ffffff7d'" style="color:#ffffff7d ">Más información sobre la
+                  generación de PictoMaker</a></p>
+              <div class="text-muted text-white p-3">
+                <div class="mr-2 mb-2">
+                  <a role="button" class="selectable btn btn-sm btn-outline-light fade-page" data-toggle="modal"
+                    data-target="#help" role="button" style="margin-left:10px;margin-right:10px;margin-top:10px;margin-bottom:10px;"><i
+                      class="fa fa-life-ring"></i>&nbsp;&nbsp;&nbsp;¿Necesitas ayuda?</a>
+                  <a href="https://github.com/mianfg/pictomaker" class="btn btn-sm btn-outline-light fade-page"
+                    style="margin-left:10px;margin-right:10px;margin-top:10px;margin-bottom:10px;"><i class="fa fa-info-circle"></i>&nbsp;&nbsp;&nbsp;Sobre
+                    PictoMaker</a></div>
+              </div>
+              <div class="d-flex flex-wrap justify-content-center text-white align-middle m-5">
+                <a role="button" class="btn btn-sm btn-primary" data-toggle="modal" data-target="#syntax-palette"
+                  onclick="setSyntaxColorPickerValues()"
+                  style="margin-top:10px;margin-bottom:10px;margin-left:20px; margin-right:20px">
+                  <div class="d-flex align-items-center">
+                    <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24px"
+                      height="24px" viewBox="0 0 24 24" version="1.1" class="injected-svg icon bg-primary"
+                      data-src="assets/img/icons/theme/communication/active-call.svg">
+                      <title>Icono de paleta</title>
+                      <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+                        <rect opacity="0" x="0" y="0" width="24" height="24"></rect>
+                        <path
+                          d="M5,5 L5,15 C5,15.5948613 5.25970314,16.1290656 5.6719139,16.4954176 C5.71978107,16.5379595 5.76682388,16.5788906 5.81365532,16.6178662 C5.82524933,16.6294602 15,7.45470952 15,7.45470952 C15,6.9962515 15,6.17801499 15,5 L5,5 Z M5,3 L15,3 C16.1045695,3 17,3.8954305 17,5 L17,15 C17,17.209139 15.209139,19 13,19 L7,19 C4.790861,19 3,17.209139 3,15 L3,5 C3,3.8954305 3.8954305,3 5,3 Z"
+                          fill="#000000" fill-rule="nonzero"
+                          transform="translate(10.000000, 11.000000) rotate(-315.000000) translate(-10.000000, -11.000000) "
+                          style="fill:#fff"></path>
+                        <path
+                          d="M20,22 C21.6568542,22 23,20.6568542 23,19 C23,17.8954305 22,16.2287638 20,14 C18,16.2287638 17,17.8954305 17,19 C17,20.6568542 18.3431458,22 20,22 Z"
+                          fill="#000000" opacity="0.3" style="fill:#fff"></path>
+                      </g>
+                    </svg>
+                    <span>Paleta de sintaxis</span>
+                  </div>
+                </a>
+                <div class="custom-control custom-switch mr-4"
+                  style="margin-top:15px; margin-left:20px; margin-right:20px">
+                  <input type="checkbox" class="custom-control-input" id="color-switch" checked="">
+                  <label class="custom-control-label" for="color-switch" onclick="pressColorSwitch()">Colorear</label>
+                </div>
+              </div>
             </div>
           </div>
-          <div class="d-flex flex-wrap justify-content-center text-white align-middle m-5">
-            <div class="custom-control custom-switch mr-4">
-              <a href="#" class="btn btn-sm btn-primary" data-toggle="modal" data-target="#syntax-palette" onclick="setSyntaxColorPickerValues()"><i
-                  class="fa fa-tint"></i>&nbsp;&nbsp;&nbsp;Paleta de sintaxis</a>
-            </div>
-            <div class="custom-control custom-switch mr-4">
-              <input type="checkbox" class="custom-control-input" id="color-switch" checked="">
-              <label class="custom-control-label" for="color-switch" onclick="pressColorSwitch()">Colorear</label>
-            </div>
-          </div>
+
+
         </div>
-        <div id="cards-div">
-          <!-- Aquí se compilan las cartas -->
-          <div class="container">
-            <div class="row">
-              <div class="col-md-6 col-lg-4 mb-3 mb-md-4">
-                <div class="card h-100 hover-box-shadow" style="border: 8px solid rgb(255,0,0)" id="card-ej">
-                  <img class="card-img-top" src="../static/color/al.png" alt="blog.4.image">
-                  <div class="card-body">
-                    <a href="#" data-toggle="modal" data-target="#change-text">
-                      <h3 style="font-family: escolar; font-size: 40px;">Miguel,</h3>
-                    </a>
-                    <a href="#" data-toggle="modal" data-target="#change-syntax">
-                      <p>sustantivo</p>
-                    </a>
-                  </div>
-                  <div class="card-footer d-flex justify-content-between align-items-center">
-                    <div class="badge badge-pill badge-primary-2"><i class="fa fa-arrow-left"></i></div>
-                    <a href="#" class="badge badge-pill badge-primary"><i class="fa fa-arrow-left"></i></a>
-                    <a href="#" class="badge badge-pill badge-info" data-toggle="modal"
-                      data-target="#custom-under-development"><i class="fa fa-camera"></i>&nbsp;&nbsp;&nbsp;Imagen</a>
-                    <a href="#" class="badge badge-pill badge-primary"><i class="fa fa-arrow-right"></i></a>
-                    <div class="badge badge-pill badge-primary-2"><i class="fa fa-arrow-right"></i></div>
-                  </div>
+
+      </div>
+      <div id="cards-div" style="margin-top:-50px">
+        <!-- Aquí se compilan las cartas -->
+      </div>
+
+
+      <div class="row section-title justify-content-center text-center p-5" id="download-buttons">
+        <div class="col-md-9 col-lg-8 col-xl-7 text-white m">
+          <h4><br>Descarga tus pictogramas</h4>
+          <p>Una vez que estés contentx con el resultado, puedes descargarlo como una imagen con todas las tarjetas, o
+            como tarjetas individuales</p>
+          <div class="d-flex flex-column flex-sm-row justify-content-center mt-4 mt-md-5 aos-init aos-animate"
+            data-aos="fade-up" data-aos-delay="300">
+
+
+            <div class="mr-2 mb-2" hidden>
+              <a role="button" class="btn btn-primary btn mx-sm-2 my-1 my-sm-0" data-toggle="modal"
+                data-target="#download" onclick="downloadPDF()">
+                <div class="d-flex align-items-center">
+                  <span>PDF</span>
+
                 </div>
-              </div>
-              <div class="col-md-6 col-lg-4 mb-3 mb-md-4">
-                <div class="card h-100 hover-box-shadow">
-                  <a href="#" class="d-block bg-gradient rounded-top">
-                    <img class="card-img-top hover-fade-out" src="assets/img/blog/thumb-5.jpg" alt="blog.5.image">
-                  </a>
-                  <div class="card-body">
-                    <a href="#">
-                      <h3>Why social ROI is impossible to measure</h3>
-                    </a>
-                    <p>
-                      Sed arcu Jon odio Oberyn lacinia at quis. Brienne fermentum vel porta Jon pulvinar neque.
-                    </p>
-                    <a href="#">Read Story</a>
-                  </div>
-                  <div class="card-footer d-flex justify-content-between align-items-center">
-                    <a href="#" class="badge badge-pill badge-info">Finance</a>
-                    <div class="text-small text-muted">July 21st</div>
-                  </div>
-                </div>
-              </div>
-              <div class="col-md-6 col-lg-4 mb-3 mb-md-4">
-                <div class="card h-100 hover-box-shadow" style="border: 4px solid rgb(255,0,0)" id="card-ej">
-                  <a href="#" class="d-block bg-gradient rounded-top">
-                    <img class="card-img-top hover-fade-out" src="assets/img/blog/thumb-8.jpg" alt="blog.6.image">
-                  </a>
-                  <div class="card-body">
-                    <a href="#">
-                      <h3>Breathing new life into a tired UI</h3>
-                    </a>
-                    <p>
-                      Podrick in massa tempor nec feugiat nisl pretium. Consectetur imp faucibus nisl tincidunt.
-                    </p>
-                    <a href="#">Read Story</a>
-                  </div>
-                  <div class="card-footer d-flex justify-content-between align-items-center">
-                    <a href="#" class="badge badge-pill badge-danger">Design</a>
-                    <div class="text-small text-muted">June 30th</div>
-                  </div>
-                </div>
-              </div>
+              </a>
             </div>
-        
-            <div class="row">
-              <div class="col-md-6 col-lg-4 mb-3 mb-md-4">
-                <div class="card h-100 hover-box-shadow">
-                  <a href="#" class="d-block bg-gradient rounded-top">
-                    <img class="card-img-top" src="assets/img/blog/thumb-4.jpg" alt="blog.4.image">
-                  </a>
-                  <div class="card-body">
-                    <a href="#">
-                      <h3>It's not just about the clicks. Here's why</h3>
-                    </a>
-                    <p>
-                      Consectetur libero imp faucibus nisl tincidunt. Sansa tellus mauris a diam maecenas sed.
-                    </p>
-                    <a href="#">Read Story</a>
-                  </div>
-                  <div class="card-footer d-flex justify-content-between align-items-center">
-                    <a href="#" class="badge badge-pill badge-primary">Anterior</a>
-                    <a href="#" class="badge badge-pill badge-primary">Imagen</a>
-                    <a href="#" class="badge badge-pill badge-primary">c</a>
-                    <a href="#" class="badge badge-pill badge-primary">Siguiente</a>
-                  </div>
+            <div class="mr-2 mb-2">
+              <a role="button" class="btn btn-primary btn mx-sm-2 my-1 my-sm-0" data-toggle="modal"
+                data-target="#download" onclick="downloadPNG()">
+                <div class="d-flex align-items-center">
+                  <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24px"
+                    height="24px" viewBox="0 0 24 24" version="1.1" class="injected-svg icon bg-primary"
+                    data-src="assets/img/icons/theme/communication/active-call.svg">
+                    <title>Icono de descarga simple</title>
+                    <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+                      <rect opacity="0" x="0" y="0" width="24" height="24"></rect>
+                      <path
+                        d="M6,9 L6,15 C6,16.6568542 7.34314575,18 9,18 L15,18 L15,18.8181818 C15,20.2324881 14.2324881,21 12.8181818,21 L5.18181818,21 C3.76751186,21 3,20.2324881 3,18.8181818 L3,11.1818182 C3,9.76751186 3.76751186,9 5.18181818,9 L6,9 Z M17,16 L17,10 C17,8.34314575 15.6568542,7 14,7 L8,7 L8,6.18181818 C8,4.76751186 8.76751186,4 10.1818182,4 L17.8181818,4 C19.2324881,4 20,4.76751186 20,6.18181818 L20,13.8181818 C20,15.2324881 19.2324881,16 17.8181818,16 L17,16 Z"
+                        fill="#000000" fill-rule="nonzero" opacity="0.3" style="fill:#fff"></path>
+                      <path
+                        d="M9.27272727,9 L13.7272727,9 C14.5522847,9 15,9.44771525 15,10.2727273 L15,14.7272727 C15,15.5522847 14.5522847,16 13.7272727,16 L9.27272727,16 C8.44771525,16 8,15.5522847 8,14.7272727 L8,10.2727273 C8,9.44771525 8.44771525,9 9.27272727,9 Z"
+                        fill="#000000" style="fill:#fff"></path>
+                    </g>
+                  </svg>
+                  <span>Una imagen</span>
                 </div>
-              </div>
-              <div class="col-md-6 col-lg-4 mb-3 mb-md-4">
-                <div class="card h-100 hover-box-shadow">
-                  <a href="#" class="d-block bg-gradient rounded-top">
-                    <img class="card-img-top hover-fade-out" src="assets/img/blog/thumb-5.jpg" alt="blog.5.image">
-                  </a>
-                  <div class="card-body">
-                    <a href="#">
-                      <h3>Why social ROI is impossible to measure</h3>
-                    </a>
-                    <p>
-                      Sed arcu Jon odio Oberyn lacinia at quis. Brienne fermentum vel porta Jon pulvinar neque.
-                    </p>
-                    <a href="#">Read Story</a>
-                  </div>
-                  <div class="card-footer d-flex justify-content-between align-items-center">
-                    <a href="#" class="badge badge-pill badge-info">Finance</a>
-                    <div class="text-small text-muted">July 21st</div>
-                  </div>
+              </a>
+            </div>
+            <div class="mr-2 mb-2">
+              <a role="button" class="btn btn-primary btn mx-sm-2 my-1 my-sm-0" data-toggle="modal"
+                data-target="#download" onclick="downloadZIP()">
+                <div class="d-flex align-items-center">
+                  <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24px"
+                    height="24px" viewBox="0 0 24 24" version="1.1" class="injected-svg icon bg-primary"
+                    data-src="assets/img/icons/theme/communication/active-call.svg">
+                    <title>Icono de descarga simple</title>
+                    <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+                      <rect opacity="0" x="0" y="0" width="24" height="24"></rect>
+                      <path
+                        d="M6,9 L6,15 C6,16.6568542 7.34314575,18 9,18 L15,18 L15,18.8181818 C15,20.2324881 14.2324881,21 12.8181818,21 L5.18181818,21 C3.76751186,21 3,20.2324881 3,18.8181818 L3,11.1818182 C3,9.76751186 3.76751186,9 5.18181818,9 L6,9 Z M17,16 L17,10 C17,8.34314575 15.6568542,7 14,7 L8,7 L8,6.18181818 C8,4.76751186 8.76751186,4 10.1818182,4 L17.8181818,4 C19.2324881,4 20,4.76751186 20,6.18181818 L20,13.8181818 C20,15.2324881 19.2324881,16 17.8181818,16 L17,16 Z"
+                        fill="#000000" fill-rule="nonzero" style="fill:#fff"></path>
+                      <path
+                        d="M9.27272727,9 L13.7272727,9 C14.5522847,9 15,9.44771525 15,10.2727273 L15,14.7272727 C15,15.5522847 14.5522847,16 13.7272727,16 L9.27272727,16 C8.44771525,16 8,15.5522847 8,14.7272727 L8,10.2727273 C8,9.44771525 8.44771525,9 9.27272727,9 Z"
+                        fill="#000000" opacity="0.3" style="fill:#fff"></path>
+                    </g>
+                  </svg>
+                  <span>Cada tarjeta</span>
                 </div>
-              </div>
-              <div class="col-md-6 col-lg-4 mb-3 mb-md-4">
-                <div class="card h-100 hover-box-shadow" style="border: 4px solid rgb(255,0,0)" id="card-ej">
-                  <a href="#" class="d-block bg-gradient rounded-top">
-                    <img class="card-img-top hover-fade-out" src="assets/img/blog/thumb-8.jpg" alt="blog.6.image">
-                  </a>
-                  <div class="card-body">
-                    <a href="#">
-                      <h3>Breathing new life into a tired UI</h3>
-                    </a>
-                    <p>
-                      Podrick in massa tempor nec feugiat nisl pretium. Consectetur imp faucibus nisl tincidunt.
-                    </p>
-                    <a href="#">Read Story</a>
-                  </div>
-                  <div class="card-footer d-flex justify-content-between align-items-center">
-                    <a href="#" class="badge badge-pill badge-danger">Design</a>
-                    <div class="text-small text-muted">June 30th</div>
-                  </div>
-                </div>
-              </div>
+              </a>
             </div>
           </div>
 
         </div>
 
 
-        <div class="row section-title justify-content-center text-center p-5" id="download-buttons" >
-            <div class="col-md-9 col-lg-8 col-xl-7 text-white m">
-            <h4><br>Descarga tu pictograma</h4><p>Una vez que estés contentx con el resultado, puedes descargarlo como PDF, PNG o un ZIP con todas las imágenes</p><div class="d-flex flex-column flex-sm-row justify-content-center mt-4 mt-md-5 aos-init aos-animate" data-aos="fade-up" data-aos-delay="300">
-                    
-                    
-                    <div class="mr-2 mb-2">
-                      <a href="#" class="btn btn-primary btn mx-sm-2 my-1 my-sm-0" data-toggle="modal" data-target="#download" onclick="downloadPDF()">
-                        <div class="d-flex align-items-center">
-                          <span>PDF</span>
-                          
-                        </div>
-                      </a>
-                    </div>
-                  <div class="mr-2 mb-2">
-                      <a href="#" class="btn btn-primary btn mx-sm-2 my-1 my-sm-0" data-toggle="modal" data-target="#download" onclick="downloadPNG()">
-                        <div class="d-flex align-items-center">
-                          <span>PNG</span>
-                          
-                        </div>
-                      </a>
-                    </div><div class="mr-2 mb-2">
-                      <a href="#" class="btn btn-primary btn mx-sm-2 my-1 my-sm-0" data-toggle="modal" data-target="#download" onclick="downloadZIP()">
-                        <div class="d-flex align-items-center">
-                          <span>ZIP</span>
-                          
-                        </div>
-                      </a>
-                    </div>
-                  </div>
-                  
-                  </div>
-            
-                    
-            
-        
-                  
-                </div>
 
 
-        
-        <!-- WIP <div class="blob blob-3 w-50 h-50 bg-white opacity-10 top right" style="mask-image: url('./static/img/blobs/blob-2.svg');"></div>
+
+      </div>
+
+
+      <div class="container" id="more-info">
+          <div>
+            <a href="https://mianfg.bloomgogo.com"><img src="/static/img/logos/mianfg-handwritten-logo-white.svg" width="100px"></a>
+          </div>
+        </div>
+      <!-- WIP <div class="blob blob-3 w-50 h-50 bg-white opacity-10 top right" style="mask-image: url('./static/img/blobs/blob-2.svg');"></div>
       <div class="blob blob-4 w-25 h-25 bg-white opacity-10 bottom left"></div> -->
-          </div>
-          <div class="container" id="more-info">
-              <div>
-                <a href="https://github.com/mianfg/pictomaker" class="btn btn-sm btn-outline-light fade-page"><i class="fa fa-github"></i>&nbsp;&nbsp;&nbsp;Más información</a>
-              </div>
-            </div>
-   </section>
-
-  <a href="#top" class="btn btn-primary rounded-circle btn-back-to-top" data-smooth-scroll data-aos="fade-up"
-    data-aos-offset="2000" data-aos-mirror="true" data-aos-once="false">
-    <img src="assets/img/icons/interface/icon-arrow-up.svg" alt="Icon" class="icon bg-white" data-inject-svg>
-  </a>
+    </div>
+   
+  </section>
 
   <!-- Modal -->
   <div class="modal fade" id="syntax-palette" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle"
@@ -349,6 +305,7 @@
             <div class="col">
               <h5>Modifica los colores</h5>
               <p>Modifique los colores de cada categoría gramatical a continuación.</p>
+              <p>&nbsp;</p>
             </div>
 
           </div>
@@ -359,7 +316,8 @@
                   <div class="input-group-prepend">
                     <span class="input-group-text" style="width:150px;">Sustantivos</span>
                   </div>
-                  <input class="form-control" placeholder="Color HTML" type="color" style="padding:0;" value="#00ff00" id="color-picker-SUST">
+                  <input class="form-control" placeholder="Color HTML" type="color" style="padding:0;" value="#00ff00"
+                    id="color-picker-SUST">
                 </div>
               </div>
             </div>
@@ -369,7 +327,8 @@
                   <div class="input-group-prepend">
                     <span class="input-group-text" style="width:150px;">Adjetivos</span>
                   </div>
-                  <input class="form-control" placeholder="Color HTML" type="color" style="padding:0;" value="#00ff00" id="color-picker-ADJ">
+                  <input class="form-control" placeholder="Color HTML" type="color" style="padding:0;" value="#00ff00"
+                    id="color-picker-ADJ">
                 </div>
               </div>
             </div>
@@ -379,7 +338,8 @@
                   <div class="input-group-prepend">
                     <span class="input-group-text" style="width:150px;">Determinantes</span>
                   </div>
-                  <input class="form-control" placeholder="Color HTML" type="color" style="padding:0;" value="#00ff00" id="color-picker-DET">
+                  <input class="form-control" placeholder="Color HTML" type="color" style="padding:0;" value="#00ff00"
+                    id="color-picker-DET">
                 </div>
               </div>
             </div>
@@ -389,7 +349,8 @@
                   <div class="input-group-prepend">
                     <span class="input-group-text" style="width:150px;">Pronombres</span>
                   </div>
-                  <input class="form-control" placeholder="Color HTML" type="color" style="padding:0;" value="#00ff00" id="color-picker-PRON">
+                  <input class="form-control" placeholder="Color HTML" type="color" style="padding:0;" value="#00ff00"
+                    id="color-picker-PRON">
                 </div>
               </div>
             </div>
@@ -399,7 +360,8 @@
                   <div class="input-group-prepend">
                     <span class="input-group-text" style="width:150px;">Verbos</span>
                   </div>
-                  <input class="form-control" placeholder="Color HTML" type="color" style="padding:0;" value="#00ff00" id="color-picker-VERB">
+                  <input class="form-control" placeholder="Color HTML" type="color" style="padding:0;" value="#00ff00"
+                    id="color-picker-VERB">
                 </div>
               </div>
             </div>
@@ -409,7 +371,8 @@
                   <div class="input-group-prepend">
                     <span class="input-group-text" style="width:150px;">Adverbios</span>
                   </div>
-                  <input class="form-control" placeholder="Color HTML" type="color" style="padding:0;" value="#00ff00" id="color-picker-ADVERB">
+                  <input class="form-control" placeholder="Color HTML" type="color" style="padding:0;" value="#00ff00"
+                    id="color-picker-ADVERB">
                 </div>
               </div>
             </div>
@@ -419,7 +382,8 @@
                   <div class="input-group-prepend">
                     <span class="input-group-text" style="width:150px;">Preposiciones</span>
                   </div>
-                  <input class="form-control" placeholder="Color HTML" type="color" style="padding:0;" value="#00ff00" id="color-picker-PREP">
+                  <input class="form-control" placeholder="Color HTML" type="color" style="padding:0;" value="#00ff00"
+                    id="color-picker-PREP">
                 </div>
               </div>
             </div>
@@ -429,7 +393,8 @@
                   <div class="input-group-prepend" width="400px">
                     <span class="input-group-text" style="width:150px;">Conjunciones</span>
                   </div>
-                  <input class="form-control" placeholder="Color HTML" type="color" style="padding:0;" value="#00ff00" id="color-picker-CONJ">
+                  <input class="form-control" placeholder="Color HTML" type="color" style="padding:0;" value="#00ff00"
+                    id="color-picker-CONJ">
                 </div>
               </div>
             </div>
@@ -439,7 +404,8 @@
                   <div class="input-group-prepend">
                     <span class="input-group-text" style="width:150px;">Interjecciones</span>
                   </div>
-                  <input class="form-control" placeholder="Color HTML" type="color" style="padding:0;" value="#00ff00" id="color-picker-INTERJ">
+                  <input class="form-control" placeholder="Color HTML" type="color" style="padding:0;" value="#00ff00"
+                    id="color-picker-INTERJ">
                 </div>
               </div>
             </div>
@@ -449,23 +415,26 @@
                   <div class="input-group-prepend">
                     <span class="input-group-text" style="width:150px;">Otros</span>
                   </div>
-                  <input class="form-control" placeholder="Color HTML" type="color" style="padding:0;" value="#00ff00" id="color-picker-OTHER">
+                  <input class="form-control" placeholder="Color HTML" type="color" style="padding:0;" value="#00ff00"
+                    id="color-picker-OTHER">
                 </div>
               </div>
             </div>
           </div>
           <div class="row">
-              <div class="col">
-                  <div class="mr-2 mb-2">
-                      <a href="#" class="badge badge-pill badge-danger" onclick="restoreSyntaxPalette()">Restaurar a valores predeterminados</a>
-                    </div>
-                </div>
+            <div class="col">
+              <div class="mr-2 mb-2">
+                <a role="button" class="badge badge-pill badge-danger" onclick="restoreSyntaxPalette()">Restaurar a
+                  valores predeterminados</a>
+              </div>
+            </div>
           </div>
         </div>
-        
+
         <div class="modal-footer">
           <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
-          <button type="button" class="btn btn-primary" onclick="setSyntaxColors()" data-dismiss="modal">Guardar cambios</button>
+          <button type="button" class="btn btn-primary" onclick="setSyntaxColors()" data-dismiss="modal">Guardar
+            cambios</button>
         </div>
       </div>
     </div>
@@ -474,10 +443,11 @@
   <!-- Modal -->
   <div class="modal fade" id="custom-under-development" tabindex="-1" role="dialog"
     aria-labelledby="exampleModalLongTitle" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
       <div class="modal-content">
         <div class="modal-header">
-          <h5 class="modal-title" id="exampleModalLongTitle"><i class="fa fa-info"></i>&nbsp;&nbsp;&nbsp;En desarrollo
+          <h5 class="modal-title" id="exampleModalLongTitle"><i class="fa fa-camera"></i>&nbsp;&nbsp;&nbsp;Cambiar
+            imagen
           </h5>
           <button type="button" class="close" data-dismiss="modal" aria-label="Close">
             <span aria-hidden="true">&times;</span>
@@ -486,9 +456,237 @@
         <div class="modal-body">
           <div class="row">
             <div class="col">
-              <h5>Subir imagen personalizada</h5>
-              <p>Esta versión de la aplicación sólo permite ciclar entre las imágenes sugeridas. Pronto podrás buscar en
-                la librería de pictogramas o subir tus propias imágenes.</p>
+              <p>Puede modificar la imagen de la tarjeta buscando en la librería de pictogramas o desde una URL.</p>
+              <div class="d-md-flex">
+                <ul class="nav nav-pills flex-column" id="myTab-6" role="tablist">
+                  <li class="nav-item">
+                    <a class="btn btn-primary w-100 active" id="home-tab-6" data-toggle="tab" href="#home-6" role="tab"
+                      aria-controls="home" aria-selected="true">
+                      <div class="d-flex align-items-center">
+                        <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24px"
+                          height="24px" viewBox="0 0 24 24" version="1.1" class="injected-svg icon bg-primary"
+                          data-src="assets/img/icons/theme/communication/active-call.svg">
+                          <title>Icono de librería</title>
+                          <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+                            <rect opacity="0" x="0" y="0" width="24" height="24"></rect>
+                            <path
+                              d="M5.5,2 L18.5,2 C19.3284271,2 20,2.67157288 20,3.5 L20,6.5 C20,7.32842712 19.3284271,8 18.5,8 L5.5,8 C4.67157288,8 4,7.32842712 4,6.5 L4,3.5 C4,2.67157288 4.67157288,2 5.5,2 Z M11,4 C10.4477153,4 10,4.44771525 10,5 C10,5.55228475 10.4477153,6 11,6 L13,6 C13.5522847,6 14,5.55228475 14,5 C14,4.44771525 13.5522847,4 13,4 L11,4 Z"
+                              fill="#000000" opacity="0.3"></path>
+                            <path
+                              d="M5.5,9 L18.5,9 C19.3284271,9 20,9.67157288 20,10.5 L20,13.5 C20,14.3284271 19.3284271,15 18.5,15 L5.5,15 C4.67157288,15 4,14.3284271 4,13.5 L4,10.5 C4,9.67157288 4.67157288,9 5.5,9 Z M11,11 C10.4477153,11 10,11.4477153 10,12 C10,12.5522847 10.4477153,13 11,13 L13,13 C13.5522847,13 14,12.5522847 14,12 C14,11.4477153 13.5522847,11 13,11 L11,11 Z M5.5,16 L18.5,16 C19.3284271,16 20,16.6715729 20,17.5 L20,20.5 C20,21.3284271 19.3284271,22 18.5,22 L5.5,22 C4.67157288,22 4,21.3284271 4,20.5 L4,17.5 C4,16.6715729 4.67157288,16 5.5,16 Z M11,18 C10.4477153,18 10,18.4477153 10,19 C10,19.5522847 10.4477153,20 11,20 L13,20 C13.5522847,20 14,19.5522847 14,19 C14,18.4477153 13.5522847,18 13,18 L11,18 Z"
+                              fill="#000000"></path>
+                          </g>
+                        </svg>
+                        <span>Librería</span>
+                      </div>
+                    </a>
+                  </li>
+                  <li class="nav-item">
+                    <a class="btn btn-primary w-100" id="profile-tab-6" data-toggle="tab" href="#profile-6" role="tab"
+                      aria-controls="profile" aria-selected="false">
+                      <div class="d-flex align-items-center">
+                        <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24px"
+                          height="24px" viewBox="0 0 24 24" version="1.1" class="injected-svg icon bg-primary"
+                          data-src="assets/img/icons/theme/communication/active-call.svg">
+                          <title>Icono de librería</title>
+                          <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+                            <rect opacity="0" x="0" y="0" width="24" height="24"></rect>
+                            <path
+                              d="M12.4644661,14.5355339 L9.46446609,14.5355339 C8.91218134,14.5355339 8.46446609,14.9832492 8.46446609,15.5355339 C8.46446609,16.0878187 8.91218134,16.5355339 9.46446609,16.5355339 L12.4644661,16.5355339 L12.4644661,17.5355339 C12.4644661,18.6401034 11.5690356,19.5355339 10.4644661,19.5355339 L6.46446609,19.5355339 C5.35989659,19.5355339 4.46446609,18.6401034 4.46446609,17.5355339 L4.46446609,13.5355339 C4.46446609,12.4309644 5.35989659,11.5355339 6.46446609,11.5355339 L10.4644661,11.5355339 C11.5690356,11.5355339 12.4644661,12.4309644 12.4644661,13.5355339 L12.4644661,14.5355339 Z"
+                              fill="#000000" opacity="0.3"
+                              transform="translate(8.464466, 15.535534) rotate(-45.000000) translate(-8.464466, -15.535534) ">
+                            </path>
+                            <path
+                              d="M11.5355339,9.46446609 L14.5355339,9.46446609 C15.0878187,9.46446609 15.5355339,9.01675084 15.5355339,8.46446609 C15.5355339,7.91218134 15.0878187,7.46446609 14.5355339,7.46446609 L11.5355339,7.46446609 L11.5355339,6.46446609 C11.5355339,5.35989659 12.4309644,4.46446609 13.5355339,4.46446609 L17.5355339,4.46446609 C18.6401034,4.46446609 19.5355339,5.35989659 19.5355339,6.46446609 L19.5355339,10.4644661 C19.5355339,11.5690356 18.6401034,12.4644661 17.5355339,12.4644661 L13.5355339,12.4644661 C12.4309644,12.4644661 11.5355339,11.5690356 11.5355339,10.4644661 L11.5355339,9.46446609 Z"
+                              fill="#000000"
+                              transform="translate(15.535534, 8.464466) rotate(-45.000000) translate(-15.535534, -8.464466) ">
+                            </path>
+                          </g>
+                        </svg>
+                        <span>URL</span>
+                      </div>
+                    </a>
+                  </li>
+
+                </ul>
+                <div class="tab-content flex-grow-1 ml-md-4 mt-3 mt-md-0" id="myTabContent-6">
+                  <div class="tab-pane fade active show" id="home-6" role="tabpanel" aria-labelledby="home-tab-6">
+                    <div class="card">
+                      <div class="card-body">
+                        <h5>Buscador de pictogramas</h5>
+                        <p>Utilice el siguiente cuadro de búsqueda para buscar entre los más de 15000 pictogramas
+                          disponibles.</p>
+                        <div class="d-flex flex-column flex-sm-row" style="margin-bottom: 20px;">
+                          <div id="scrollable-dropdown-menu"><input
+                              class="typeahead form-control form-control-lg mr-sm-2 mb-2 mb-sm-0 h-100" type="text"
+                              placeholder="Inserte palabras..." autocomplete="off" aria-autocomplete="off"
+                              id="input-search"></div>
+                          <a role="button" class="btn btn-primary" onclick="searchPictos()">
+                            <nobr>Buscar&nbsp;&nbsp;&nbsp;<i class="fa fa-search"></i></nobr>
+                          </a>
+                        </div>
+                        <div class="alert alert-danger text-center" role="alert" id="empty-search-notice"
+                          style="margin-bottom:0px">
+                          Su búsqueda no generó ningún resultado. <strong>Inténtelo de nuevo</strong>
+                        </div>
+                        <div id="picture-scroll" class="scroll-area">
+                          <div style="width:100%;height:500px;">
+                            <div id="search-cards-div" style="margin-top:0px;">
+                              <!-- Aquí van los resultados de búsqueda -->
+
+                            </div>
+                          </div>
+                        </div>
+                        <!--<div class="row"><div class="col-md-6 col-lg-4 mb-3 mb-md-4">
+                                    <div class="card h-100 hover-box-shadow" style="border: 8px solid #1565c0" id="card-0">
+                                      <img class="card-img-top" id="img-0" src="https://raw.githubusercontent.com/mianfg/pictomaker/master/static/color/el.png" alt="pictograma">
+                                      
+                                      
+                                    </div>
+                                  </div><div class="col-md-6 col-lg-4 mb-3 mb-md-4">
+                                    <div class="card h-100 hover-box-shadow" style="border: 8px solid #d32f2f" id="card-1">
+                                      <img class="card-img-top" id="img-1" src="https://raw.githubusercontent.com/mianfg/pictomaker/master/static/color/niño_1.png" alt="pictograma">
+                                      
+                                      
+                                    </div>
+                                  </div><div class="col-md-6 col-lg-4 mb-3 mb-md-4">
+                                    <div class="card h-100 hover-box-shadow" style="border: 8px solid #ff6f00" id="card-2">
+                                      <img class="card-img-top" id="img-2" src="https://raw.githubusercontent.com/mianfg/pictomaker/master/static/color/comer_1.png" alt="pictograma">
+                                      
+                                      
+                                    </div>
+                                  </div></div>-->
+                      </div>
+                    </div>
+                  </div>
+                  <div class="tab-pane fade" id="profile-6" role="tabpanel" aria-labelledby="profile-tab-6">
+                    <div class="card">
+                      <div class="card-body">
+                        <h5>Insertar imagen desde URL</h5>
+                        <p>Función en desarrollo</p>
+                        <!--<p>Inserte la dirección web de la imagen a insertar.</p>
+                                  <div class="d-flex flex-column flex-sm-row" style="margin-bottom: 20px;">
+                                      <input class="form-control form-control-lg mr-sm-2 mb-2 mb-sm-0 h-100" type="text" placeholder="Inserte URL..." autocomplete="off" aria-autocomplete="off" id="input-url">
+                                      <a role="button" class="btn btn-primary" onclick="verifyURL()">
+                                        <nobr>Buscar&nbsp;&nbsp;&nbsp;<i class="fa fa-search"></i></nobr>
+                                      </a>
+                                    </div>
+                                    <div class="alert alert-danger text-center" role="alert" id="invalid-image-notice" style="margin-bottom:0px">
+                                        La URL que ha proporcionado no es válida. <strong>Inténtelo de nuevo</strong>
+                                      </div>-->
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+          <button type="button" class="btn btn-primary" data-dismiss="modal" onclick="setModalImage()">Guardar
+            cambios</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+  <!-- Modal -->
+  <div class="modal fade" id="help" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle"
+    aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLongTitle"><i class="fa fa-life-ring"></i>&nbsp;&nbsp;&nbsp;Ayuda de
+            PictoMaker
+          </h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <div class="row">
+            <div class="col">
+              <ul class="nav nav-tabs lead mb-4" id="myTab" role="tablist">
+                <li class="nav-item">
+                  <a class="nav-link active" id="generation-tab" data-toggle="tab" href="#generation" role="tab"
+                    aria-controls="generation" aria-selected="true">Generación</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" id="edition-tab" data-toggle="tab" href="#edition" role="tab"
+                    aria-controls="edition" aria-selected="false">Edición</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" id="export-tab" data-toggle="tab" href="#export" role="tab" aria-controls="export"
+                    aria-selected="false">Publicación</a>
+                </li>
+              </ul>
+              <div class="tab-content" id="myTabContent">
+                <div class="tab-pane fade active show" id="generation" role="tabpanel" aria-labelledby="generation-tab">
+                  <div class="card">
+                    <div class="card-body">
+                      <h4>Generación</h4>
+                      <p>En <strong>PictoMaker</strong>, generar pictogramas es tan sencillo como ir a la <a
+                          href="/">página principal</a> y escribir un texto en el cuadro de traducción. Luego,
+                        simplemente debes presionar en el botón de <i>pictogramizar</i> o la tecla intro para comenzar
+                        la traducción.</p>
+                      <p><img src="/static/img/tutorial/main.png" width="100%"></p>&nbsp;<p></p>
+                      <h5>Reglas especiales</h5>
+                      <p>PictoMaker soporta el <strong>agrupamiento de palabras</strong>. Sencillamente, si quieres que
+                        dos palabras estén en una misma carta, agrúpalas usando dos paréntesis. Por ejemplo, podemos
+                        insertar la frase siguiente:</p>
+                      <div class="alert bg-light" role="alert">El pequeño ((Miguel Ángel)) quiere ir a su casa.</div>
+                      <p>A continuación, un <strong>algoritmo de procesamiento de lenguaje natural</strong> realizará un
+                        <strong>análisis sintáctico-léxico</strong> de tu texto, para decidir las categorías
+                        gramaticales de la palabra y buscar en el banco de pictogramas. Un posible resultado sería:</p>
+                      <p><img src="/static/img/tutorial/example.png" width="100%"></p>
+                    </div>
+                  </div>
+                </div>
+                <div class="tab-pane fade" id="edition" role="tabpanel" aria-labelledby="edition-tab">
+                  <div class="card">
+                    <div class="card-body">
+                      <h4>Edición</h4>
+                      <p>Una vez que tus cartas han sido publicadas, puedes editar el resultado usando diversas
+                        herramientas, que te explicamos a continuación.</p>
+                      <p>&nbsp;</p>
+                      <p><img src="/static/img/tutorial/card.png" width="100%"></p>
+                      <p>&nbsp;</p>
+                      <h5>Cambio de texto / categoría gramatical</h5>
+                      <p>Es posible que la inteligencia artificial no haya procesado correctamente tu texto. En ese
+                        caso, puedes modificar los campos pulsando sobre ellos (<strong
+                          style="color:#2568ef">1</strong>, <strong style="color:#2568ef">2</strong>).</p>
+                      <h5>Ciclar entre imágenes sugeridas</h5>
+                      <p>PictoMaker te dará un conjunto de pictogramas para cada tarjeta. Puedes ciclar por él usando
+                        las flechas de la parte inferior (<strong style="color:#2568ef">3</strong>).</p>
+                      <h5>Cambiar imagen</h5>
+                      <p>Si no aparecen imágenes, o la imagen no corresponde, puedes usar el asistente para cambiar
+                        imagen (<strong style="color:#2568ef">4</strong>).</p>
+                      <p>&nbsp;</p>
+                      <p><img src="/static/img/tutorial/palette_color.png" width="100%"></p>
+                      <p>&nbsp;</p>
+                      <h5>Paleta de sintaxis</h5>
+                      <p>Cada tarjeta es remarcada en función de la categoría gramatical. En el menú de paleta de
+                        sintaxis puedes cambiar los colores de cada categoría gramatical.</p>
+                      <h5>Colorear</h5>
+                      <p>Pulsando el interruptor podrás alterar entre pictogramas coloreados o no coloreados.</p>
+                      <p><i>Nota:</i> estamos trabajando en esta característica. Es posible que no funcione en algunas
+                        ocasiones, en cuyo caso, simplemente inserte otra imagen mediante <i>Cambiar imagen</i>.</p>
+
+                    </div>
+                  </div>
+                </div>
+                <div class="tab-pane fade" id="export" role="tabpanel" aria-labelledby="export-tab">
+                  <div class="card">
+                    <div class="card-body">
+                      <h4>Publicación</h4>
+                      <p>Cuando estés contento con el resultado, dirígete al final de la página para exportar tus
+                        pictogramas.</p>
+                    </div>
+                  </div>
+                </div>
+              </div>
             </div>
           </div>
         </div>
@@ -519,18 +717,19 @@
           </div>
           <div class="row">
             <div class="col">
-                <div class="form-group">
-                  <div class="input-group mb-3">
-                      <input class="form-control form-control-lg mr-sm-2 mb-2 mb-sm-0 h-100" name="texto"
-                      placeholder="Nuevo texto" type="text" id="input-new-text">
-                  </div>
+              <div class="form-group">
+                <div class="input-group mb-3">
+                  <input class="form-control form-control-lg mr-sm-2 mb-2 mb-sm-0 h-100" name="texto"
+                    placeholder="Nuevo texto" type="text" id="input-new-text">
                 </div>
               </div>
+            </div>
           </div>
         </div>
         <div class="modal-footer">
           <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
-          <button type="button" class="btn btn-primary" data-dismiss="modal" onclick="setModalText()">Guardar cambios</button>
+          <button type="button" class="btn btn-primary" data-dismiss="modal" onclick="setModalText()">Guardar
+            cambios</button>
         </div>
       </div>
     </div>
@@ -625,7 +824,8 @@
         </div>
         <div class="modal-footer">
           <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
-          <button type="button" class="btn btn-primary" data-dismiss="modal" onclick="setModalSyntax()">Guardar cambios</button>
+          <button type="button" class="btn btn-primary" data-dismiss="modal" onclick="setModalSyntax()">Guardar
+            cambios</button>
         </div>
       </div>
 
@@ -639,7 +839,8 @@
     <div class="modal-dialog modal-dialog-centered" role="document">
       <div class="modal-content">
         <div class="modal-header">
-          <h5 class="modal-title" id="exampleModalLongTitle"><i class="fa fa-download"></i>&nbsp;&nbsp;&nbsp;Estamos creando su archivo</h5>
+          <h5 class="modal-title" id="exampleModalLongTitle"><i class="fa fa-download"></i>&nbsp;&nbsp;&nbsp;Estamos
+            creando su archivo</h5>
           <button type="button" class="close" data-dismiss="modal" aria-label="Close">
             <span aria-hidden="true">&times;</span>
           </button>
@@ -672,6 +873,8 @@
     integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6"
     crossorigin="anonymous"></script>
   <script src="../static/js/app.js"></script>
+  <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.8.4/jquery-ui.js"></script>
+  <script type="text/javascript" src="../static/js/typeahead.js"></script>
 </body>
 
 </html>

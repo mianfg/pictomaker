@@ -90,3 +90,6 @@ class PictoInterface():
     def get_cards(self, sentence):
         tokenized = self.__language.tokenize(sentence)
         return self.tokens_to_cards(tokenized)
+    
+    def get_literal(self, text):
+        return PictoManager.get_picto(text, append_default=False)
