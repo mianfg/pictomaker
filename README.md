@@ -5,23 +5,24 @@
 <h1 align="center"><p align="center">PictoMaker</h1></h1>
 
 > Created by **Miguel Ángel Fernández Gutiérrez** · <https://mianfg.me/> 
-> **Try this app out at <https://pictomaker.mianfg.me/>!**
+> 
+> **Try this app out at <https://pictomaker.herokuapp.com/>!**
 
 ## Introduction
 
-**PictoMaker** is a web app that translates texts into sequences of pictograms.
+**PictoMaker** is a web app that translates sentences into sequences of pictograms.
 
-## Important notice
+## ⚠️ Important notice
 
-> This app is **under development**, and the scripts provided **lack documentation**. Some of the code may be written in a not-so-pretty way, but do not worry -- I am working to tidy all this up as soon as possible!
->
-> The documentation will be presumably finished once all the features that are on my waitlist are implemented. Thanks for the patience! 😄
+> This version of PictoMaker is **deprecated**. I am working on a new, faster and more efficient (and with more elegant code) version with more features. On the meantime, you can enjoy this app at <https://pictomaker.herokuapp.com/>.
+> 
+> The scripts provided **lack documentation**, and some of the code may be written in a not-so-pretty way (as this was the first webapp that I ever implemented 😅). Please do not use in production. Soon there will be a new version, as I previosly stated.
 
 ## Features
 
 PictoMaker includes the following features:
 
-* **Sytactical analysis** using a natural language toolkit (`nltk`).
+* **Sytactical analysis** using a natural language processing toolkit (`nltk`).
 
 * **Syntax highlighting**, coloring the borders of each card depending on the category of the word.
 
